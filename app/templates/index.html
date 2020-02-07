@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block meta %}
+<meta property="og:title" content="main page">
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <div class="ui stacked segment">
+            {% if me == None %}
+                <a class="login" href="https://kauth.kakao.com/oauth/authorize?client_id=1714c2d9871d0b439f21d27c38051dc4&redirect_uri=http://localhost:8080/oauth&response_type=code">
+                    <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
+                </a>
+            {% else %}
+                {{ me.nickName }}
+                <a href="{{ url_for('logout') }}">logout</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
