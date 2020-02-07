@@ -2,11 +2,10 @@
 <div class="ui mini modal" id="modal-1">
     <div class="contents">
         <i class="close icon"></i>
-    
         <div style="margin-top: 380px; margin-left: 100px;">
             <div style="margin-bottom: 15px;">
                 {% if me.thumbnailURL %}
-                <img id="profile_img2" class="ui circular image" src="{{ me.thumbnailURL }}">
+                <img id="profile_img2" class="ui circular image call-modal" modal-id="1-1" src="{{ me.thumbnailURL }}">
                 {% else %}
                 <img id="profile_img2" class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
                 {% endif %}
@@ -18,9 +17,7 @@
             </div>    
         </div>
     </div>
-
     <div class="ui fitted divider"></div>
-
     <div class="buttons">
         <h5 class="ui icon header">
             <i class="comment icon"></i>
@@ -31,5 +28,13 @@
             프로필 관리
         </h5>
     </div>
+</div>
+{% endmacro %}
+
+
+{% macro profile_image_modal(me) %}
+<div class="ui modal image" id="modal-1-1">
+    <i class="close icon"></i>
+    <img class="ui centered big image" src="{{ me.profileImageURL }}">
 </div>
 {% endmacro %}

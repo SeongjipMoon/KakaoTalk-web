@@ -1,9 +1,7 @@
 <!doctype html>
 <html>
-
     <head>
         <meta charset="utf-8">
-
         <title>카카오톡 웹</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic/dist/semantic.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
@@ -11,14 +9,46 @@
         {% block style %}
         {% endblock %}
     </head>
-
     <body>
         <div id="body">
-            {% block body %}
-            {% endblock %}
+            <div class="ui middle aligned center aligned grid">
+                <div class="column">
+                    <div class="ui stacked segment">
+                        {% if me.nickName %}
+                        <table class="ui very basic collapsing celled table" style="width: -webkit-fill-available;">
+                            <tbody>
+                                <tr>
+                                    <td id="bar">
+                                        <div class="ui header link" id="icon">
+                                            <i class="user icon" menu=""></i>
+                                        </div>
+                                        <div class="ui header link" id="icon">
+                                            <i class="comment icon" menu="message"></i>
+                                        </div>
+                                        <div class="ui header link" id="icon">
+                                            <i class="ellipsis horizontal icon" menu="setting"></i>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% block body %}
+                                        {% endblock %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <div class="login">
+                            <a href="https://kauth.kakao.com/oauth/authorize?client_id=1714c2d9871d0b439f21d27c38051dc4&redirect_uri=http://localhost:8080/oauth&response_type=code">
+                                <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-
         <script src="{{ url_for('static', filename='lib/requirejs/require.js') }}"></script>
+        <script src="{{ url_for('static', filename='script/layout.js') }}"></script>
         {% block script %}
         {% endblock %}
     </body>
