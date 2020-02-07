@@ -38,7 +38,7 @@
                         </table>
                         {% else %}
                         <div class="login">
-                            <a href="https://kauth.kakao.com/oauth/authorize?client_id=1714c2d9871d0b439f21d27c38051dc4&redirect_uri=http://localhost:8080/oauth&response_type=code">
+                            <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code">
                                 <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
                             </a>
                         </div>

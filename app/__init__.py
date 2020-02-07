@@ -25,4 +25,9 @@ def index():
     if 'nickName' in data:
         me = data
 
-    return render_template('index.html', me=me)
+    return render_template('index.html', me=me, CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL)
+
+
+@app.route('/undefined')
+def undefined():
+    return redirect('/')
