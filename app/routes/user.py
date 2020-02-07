@@ -56,3 +56,17 @@ def oauth():
     signup(access_token)
 
     return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    access_token = call_token()
+
+    url = 'https://kapi.kakao.com/v1/user/logout'
+    headers = {
+        'Authorization': "Bearer " + str(access_token)
+    }
+
+    response = requests.post(url, headers=headers)
+    
+    return redirect('/')
