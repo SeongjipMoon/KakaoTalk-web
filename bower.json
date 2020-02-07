@@ -1,0 +1,22 @@
+{
+  "name": "KakaoTalk-web",
+  "authors": [
+    "agurimon <agurimon18@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./app/static/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic": "semantic-ui#^2.4.1",
+    "requirejs": "^2.3.6"
+  }
+}
