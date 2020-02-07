@@ -1,1 +1,1 @@
-from app.routes import message, profile, user
+from app.routes import message, profile, setting, user

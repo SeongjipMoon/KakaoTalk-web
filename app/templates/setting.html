@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block meta %}
+<meta property="og:title" content="setting page">
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/setting.css') }}">
+{% endblock %}
+
+{% block body %}
+<a class="ui header" id="title">설정</a>
+<br>
+<a href="{{ url_for('logout') }}">로그아웃</a>
+<br>
+<a href="{{ url_for('unlink') }}">회원탈퇴</a>
+{% endblock %}
