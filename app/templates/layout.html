@@ -3,8 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
         <title>카카오톡 웹</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic/dist/semantic.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
@@ -20,7 +19,6 @@
         </div>
 
         <script src="{{ url_for('static', filename='lib/requirejs/require.js') }}"></script>
-        <script src="{{ url_for('static', filename='script/layout.js') }}"></script>
         {% block script %}
         {% endblock %}
     </body>

@@ -1,0 +1,47 @@
+body {
+    background-color: #DADADA;
+}
+
+.image {
+    margin-top: -100px;
+}
+
+.column {
+    max-width: 420px;
+    max-height: 700px;
+}
+
+.ui.stacked.segment {
+    height: 700px;
+    border-width: 0px;
+    padding: 0px;
+}
+
+.ui.table {
+    height: -webkit-fill-available;
+}
+
+/* mobile 크기 때매 한거 */
+.ui.table:not(.unstackable) tbody {
+    width: auto !important;
+}
+
+#bar {
+    background-color: #efefef;
+    padding-bottom: 450px !important;
+    
+    padding-left: 8px;
+    padding-right: 5px;
+    width: 54px !important;
+}
+
+#icon {
+    padding-left: 11px;
+    padding-bottom: 15px;
+}
+
+
+#title {
+    margin-left: 3px;
+    font-size: x-large;
+}

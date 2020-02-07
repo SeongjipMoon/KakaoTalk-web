@@ -1,20 +1,76 @@
-body {
-    background-color: #DADADA;
+.login {
+    padding-top: 300px;
 }
 
-body > .grid {
-    height: 100%;
+.comment.icon,
+.ellipsis.horizontal.icon {
+    color: #afadae;
 }
 
-.image {
-    margin-top: -100px;
+.ui.fluid.category.search {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
-.column {
-    max-width: 400px;
-    max-height: 700px;
+.search input {
+    background-color: #afadae;
 }
 
-.ui.stacked.segment {
-    height: 700px;
+.prompt {
+    background-color: #f5f5f5;
+}
+
+#profile {
+    font-weight: initial;
+}
+
+
+#profile_img {
+    width: 55px;
+    height: 55px;
+}
+
+#profile_img2 {
+    width: 90px;
+    height: 90px;
+}
+
+#profile_name {
+    color: black;
+}
+
+#profile_name2 {
+    color: white;
+    font-size: large;
+    
+}
+
+.ui.mini.modal {
+    background-color: #8e9ba0;
+    height: 570px;
+    width: 300px;
+    top: 50px;
+}
+
+.ui.mini.modal .close.icon {
+    color: white;
+
+    margin-top: 10px;
+    margin-left: 275px;
+}
+
+.contents {
+    height: 450px;
+}
+
+.img.name {
+    margin-left: 105px;
+    margin-top: 380px;
+    height: 150px;
+}
+
+.buttons .icon.header,
+.buttons .comment.icon {
+    color: white;
+    margin-left: 50px;
 }
