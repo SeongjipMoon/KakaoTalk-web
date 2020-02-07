@@ -70,3 +70,17 @@ def logout():
     response = requests.post(url, headers=headers)
     
     return redirect('/')
+
+
+@app.route('/unlink')
+def unlink():
+    access_token = call_token()
+
+    url = 'https://kapi.kakao.com/v1/user/unlink'
+    headers = {
+        'Authorization': "Bearer " + str(access_token)
+    }
+
+    response = requests.post(url, headers=headers)
+    
+    return redirect('/')
