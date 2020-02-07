@@ -15,3 +15,44 @@ from app.constants import *
 4. 위 3까지 성공적으로 수행되었다면 인증 코드(Authorization Code)가 발급됩니다. 해당 인증 코드는 Redirection URI를 기반으로 Third 앱에 전달됩니다.
 5. Third 앱에서는 전달받은 인증 코드를 기반으로 사용자 토큰(Access Token, Refresh Token)을 요청하고 얻게 됩니다.
 '''
+
+
+def get_tocken(code):
+    url = 'https://kauth.kakao.com/oauth/token'
+
+    payload = "grant_type=authorization_code&client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL + "/oauth" + "&code=" + str(code)
+   
+    headers = {
+        'Content-type': "application/x-www-form-urlencoded;charset=utf-8",
+        'Cache-Control': "no-cache"
+    }
+    
+    response = requests.post(url, data=payload, headers=headers)
+    access_token = json.loads(((response.text).encode('utf-8')))['access_token']
+    save_token(access_token)
+
+    return access_token
+
+
+def signup(access_token):
+    url = 'https://kauth.kakao.com/vi/user/signup'
+
+    headers = {
+        'Content-type': "application/x-www-form-urlencoded;charset=utf-8",
+        'Cache-Control': "no-cache",
+        'Authorization': "Bearer " + str(access_token)
+    }
+
+    response = requests.post(url, headers=headers)
+
+    return response
+
+
+@app.route('/oauth')
+def oauth():
+    code = request.args.get('code')
+    
+    access_token = get_tocken(code)
+    signup(access_token)
+
+    return redirect('/')
