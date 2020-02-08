@@ -19,6 +19,19 @@
 </div>
 
 <a class="ui header" id="profile">
+    <div>
+        {% if me.thumbnailURL %}
+        <img id="profile_img" class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnailURL }}">
+        {% else %}
+        <img id="profile_img" class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
+        {% endif %}
+        <a class="profile_name" id="profile_name">
+            {{ me.nickName }}
+        </a>
+    </div>
+</a>
+
+<!-- <a class="ui header" id="profile">
     {% if me.thumbnailURL %}
     <img id="profile_img" align="left" class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnailURL }}">
     {% else %}
@@ -29,7 +42,7 @@
             {{ me.nickName }}
         </a>
     </div>
-</a>
+</a> -->
 {% endblock %}
 
 {% block script %}
