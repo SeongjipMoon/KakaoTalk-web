@@ -3,7 +3,6 @@ import requests
 import json
 
 app = Flask(__name__)
-app.config.from_object('config')
 
 from app import routes
 from app.tools import call_token
