@@ -5,7 +5,10 @@ require(['/static/config.js'], function () {
         });
 
         $(document).on('click', '.chatting', function(e) {
-            console.log($(e.target).attr('1-2'))
+            $('#modal-' + '1-2').modal('show');
+        });
+
+        $(document).on('dblclick', '.profile_name', function(e) {
             $('#modal-' + '1-2').modal('show');
         });
     });
