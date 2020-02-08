@@ -1,3 +1,5 @@
+{% from 'macros.html' import profile_modals, profile_image_modal, chatting_modal  %}
+
 <!doctype html>
 <html>
     <head>
@@ -5,6 +7,7 @@
         <title>카카오톡 웹</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic/dist/semantic.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
         {% block style %}
         {% endblock %}
@@ -23,7 +26,7 @@
                                             <i class="user icon" menu=""></i>
                                         </div>
                                         <div class="ui header link" id="icon">
-                                            <i class="comment icon" menu="message"></i>
+                                            <i class="comment icon" menu="chatting/me"></i>
                                         </div>
                                         <div class="ui header link" id="icon">
                                             <i class="ellipsis horizontal icon" menu="setting"></i>
@@ -32,6 +35,10 @@
                                     <td>
                                         {% block body %}
                                         {% endblock %}
+
+                                        {{ profile_modals(me) }}
+                                        {{ profile_image_modal(me) }}
+                                        {{ chatting_modal(me) }}
                                     </td>
                                 </tr>
                             </tbody>

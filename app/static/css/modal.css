@@ -1,0 +1,120 @@
+/* 공통 */
+.ui.modal {
+    top: 50px;
+}
+
+.ui.mini.modal {
+    background-color: #8e9ba0;
+    height: 570px;
+    width: 300px;
+}
+
+.ui.mini.modal .close.icon {
+    color: white;
+
+    margin-top: 10px;
+    margin-left: 275px;
+}
+
+.contents {
+    height: 450px;
+}
+
+.img.name {
+    margin-left: 105px;
+    margin-top: 380px;
+    height: 150px;
+}
+
+.buttons .icon.header,
+.buttons .comment.icon {
+    color: white;
+    margin-left: 50px;
+}
+
+.ui.modal.image {
+    width: 450px;
+}
+
+
+
+/* profile */
+#profile_name2 {
+    color: white;
+    font-size: large;
+}
+
+#profile_img2 {
+    width: 90px;
+    height: 90px;
+}
+
+/* profile image */
+
+.big.image {
+    top: 100px;
+}
+
+/* chatting */
+.ui.chatting.modal .close.icon {
+    color: #868686;
+
+    margin-top: 5px;
+    margin-left: 320px;
+}
+
+.ui.chatting.modal {
+    height: 610px;
+    width: 340px;
+}
+
+.chatting .navbar {
+    background-color: #95b0c3;
+    height: 83px;
+}
+
+.chatting .navbar #profile_img {
+    margin-top: 0px;
+}
+
+.chatting .contents {
+    background-color: #a0c0d7;
+}
+
+.navbar #profile {
+    margin-left: 20px;
+}
+
+.chatting .contents {
+    height: 410px;
+}
+
+
+.chatting .footer {
+    height: 117px;
+}
+
+.chatting textarea {
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 253px;
+    height: 93px;
+
+    border: 0;
+    outline: none;
+}
+
+
+
+.chatting .submit {
+
+}
+
+.chatting .footer .bbt {
+    padding-bottom: 55px;
+}
+
+
+.chatting .footer .submit.button {
+    background-color: #ffee52;
+}

@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-{% from 'macros.html' import profile_modals, profile_image_modal  %}
 
 {% block meta %}
 <meta property="og:title" content="main page">
@@ -29,9 +28,6 @@
         {{ me.nickName }}
     </a>
 </a>
-
-{{ profile_modals(me) }}
-{{ profile_image_modal(me) }}
 {% endblock %}
 
 {% block script %}

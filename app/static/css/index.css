@@ -30,51 +30,6 @@
     height: 55px;
 }
 
-#profile_img2 {
-    width: 90px;
-    height: 90px;
-}
-
 #profile_name {
     color: black;
-}
-
-#profile_name2 {
-    color: white;
-    font-size: large;
-
-}
-
-.ui.mini.modal {
-    background-color: #8e9ba0;
-    height: 570px;
-    width: 300px;
-    top: 50px;
-}
-
-.ui.mini.modal .close.icon {
-    color: white;
-
-    margin-top: 10px;
-    margin-left: 275px;
-}
-
-.contents {
-    height: 450px;
-}
-
-.img.name {
-    margin-left: 105px;
-    margin-top: 380px;
-    height: 150px;
-}
-
-.buttons .icon.header,
-.buttons .comment.icon {
-    color: white;
-    margin-left: 50px;
-}
-
-.ui.modal.image {
-    width: 450px;
 }

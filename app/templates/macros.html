@@ -19,7 +19,7 @@
     </div>
     <div class="ui fitted divider"></div>
     <div class="buttons">
-        <h5 class="ui icon header">
+        <h5 class="ui icon header chatting">
             <i class="comment icon"></i>
             나와의 채팅
         </h5>
@@ -36,5 +36,45 @@
 <div class="ui modal image" id="modal-1-1">
     <i class="close icon"></i>
     <img class="ui centered big image" src="{{ me.profileImageURL }}">
+</div>
+{% endmacro %}
+
+
+{% macro chatting_modal(me) %}
+<form class="ui chatting modal" id="modal-1-2">
+    <div class="navbar">
+        <i class="close icon"></i>
+        <a class="ui header" id="profile">
+            {% if me.thumbnailURL %}
+            <img id="profile_img" class="ui circular image call-modal" modal-id="1-1" src="{{ me.thumbnailURL }}">
+            {% else %}
+            <img id="profile_img" class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
+            {% endif %}
+            <a id="profile_name">
+                {{ me.nickName }}
+            </a>
+        </a>
+    </div>
+
+    <div class="contents">
+        
+    </div>
+
+    <div class="footer">
+        <form action="/" method="POST">
+            <table>
+                <thead>
+                    <th>
+                        <textarea name="asdf" id="" cols="" rows=""></textarea>
+                    </th>
+                    <th class="bbt">
+                        <button type="submit" class="ui submit button">
+                            전송
+                        </button>
+                    </th>
+                </thead>
+            </table>
+        </form>
+    </div>
 </div>
 {% endmacro %}
