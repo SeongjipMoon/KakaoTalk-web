@@ -25,8 +25,8 @@ def chatting():
     return render_template('chatting.html', me=me)
 
 
-@app.route('/chatting/me')
-def chatting_me():
+# @app.route('/chatting/me')
+# def chatting_me():
     me = None
     access_token = call_token()
 
@@ -109,31 +109,33 @@ def chatting_me():
     return render_template('index.html', me=me)
 
 
-@app.route('/send/me')
+@app.route('/send/me', methods=["GET", "POST"])
 def send_me():
-    access_token = call_token()
+    if request.method == 'POST':
+        message = request.form['message']
 
-    url = 'https://kapi.kakao.com/v2/api/talk/memo/default/send'
-    headers = { 
-        'Content-Type' : "application/x-www-form-urlencoded",
-        'Cache-Control' : "no-cache",
-        'Authorization': "Bearer " + str(access_token)
-    }
+        access_token = call_token()
 
-    payloadDict = dict({
-        "object_type": "text",
-        "text": "test",
-        "link": {
-            "web_url": "https://agurimon.github.io",
-            "mobile_web_url": "https://agurimon.github.io"
+        url = 'https://kapi.kakao.com/v2/api/talk/memo/default/send'
+        headers = { 
+            'Content-Type' : "application/x-www-form-urlencoded",
+            'Cache-Control' : "no-cache",
+            'Authorization': "Bearer " + str(access_token)
         }
-    })
 
-    payload = 'template_object=' + str(json.dumps(payloadDict))
-    print(payload)
+        payloadDict = dict({
+            "object_type": "text",
+            "text": "test",
+            "link": {
+                "web_url": "https://agurimon.github.io",
+                "mobile_web_url": "https://agurimon.github.io"
+            }
+        })
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+        payloadDict["text"] = message
 
-    print(response.text)
+        payload = 'template_object=' + str(json.dumps(payloadDict))
+
+        response = requests.request("POST", url, data=payload, headers=headers)
 
     return redirect('/')
