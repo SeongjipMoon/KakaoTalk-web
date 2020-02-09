@@ -6,6 +6,25 @@ from app import app
 from app.tools import call_token
 
 
+@app.route('/chatting')
+def chatting():
+    me = None
+    access_token = call_token()
+
+    url = 'https://kapi.kakao.com/v1/api/talk/profile'
+    headers = {
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Authorization': "Bearer " + str(access_token) 
+    }
+    response = requests.post(url, headers=headers)
+
+    data = json.loads(response.text)
+    if 'nickName' in data:
+        me = data
+    
+    return render_template('chatting.html', me=me)
+
+
 @app.route('/chatting/me')
 def chatting_me():
     me = None
