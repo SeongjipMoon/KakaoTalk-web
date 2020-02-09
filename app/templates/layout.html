@@ -26,7 +26,7 @@
                                             <i class="user icon" menu=""></i>
                                         </div>
                                         <div class="ui header link" id="icon">
-                                            <i class="comment icon" menu="chatting/me"></i>
+                                            <i class="comment icon" menu="chatting"></i>
                                         </div>
                                         <div class="ui header link" id="icon">
                                             <i class="ellipsis horizontal icon" menu="setting"></i>
@@ -53,26 +53,7 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
-            피시방에서 카톡하고 싶을 때<br>
-            우분투에서 카톡하고 싶을 때<br>
-            남의폰에서 카톡하고 싶을 때<br>
-            사지방에서 카톡하고 싶을 때<br>
-            인증안하고 카톡하고 싶을 때<br><br><br>
-
-
-            0) 관리자가 사용자 염탐 안함 <br><br><br>
-
-            1) 친구 목록 <br>
-                카카오톡에게 허가를 받아야함 <br><br><br>
-
-            2) 개인 로그인 <br>
-                서버 주인도 풀 수 없는 로그인 (ssh 같이 비대칭 암호화 파일 쓸 예정 (.pem)) <br><br><br>
-                    
-            3) 채팅 구현 <br>
-                (치명적) 카카오톡이 제공하는 API : 메세지를 보내는 기능 / 메세지를 받는 것을 못함 <br>
-                (해결방안) 채팅 서버 초대 링크 + 원하는 말을 보내 상대에게 보내서 그 채팅 서버에서 채팅 <br>
-                채팅이 끝나면(웹 사용자가 끊을 때) -> (서버가)채팅 서버에서 나눈 text들 카톡으로 전송 / 웹 사용자는 기록 남아있음 <br><br><br>
+            </div>                   
         </div>
         <script src="{{ url_for('static', filename='lib/requirejs/require.js') }}"></script>
         <script src="{{ url_for('static', filename='script/layout.js') }}"></script>
