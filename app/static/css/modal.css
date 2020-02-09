@@ -1,6 +1,8 @@
 /* 공통 */
 .ui.modal {
     top: 50px;
+    width: 360px;
+    height: 620px;
 }
 
 .ui.mini.modal {

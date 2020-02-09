@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% from 'macros.html' import profile %}
 
 {% block meta %}
 <meta property="og:title" content="main page">
@@ -17,32 +18,7 @@
     </div>
     <div class="results"></div>
 </div>
-
-<a class="ui header" id="profile">
-    <div>
-        {% if me.thumbnailURL %}
-        <img id="profile_img" class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnailURL }}">
-        {% else %}
-        <img id="profile_img" class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
-        {% endif %}
-        <a class="profile_name" id="profile_name">
-            {{ me.nickName }}
-        </a>
-    </div>
-</a>
-
-<!-- <a class="ui header" id="profile">
-    {% if me.thumbnailURL %}
-    <img id="profile_img" align="left" class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnailURL }}">
-    {% else %}
-    <img id="profile_img" class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
-    {% endif %}
-    <div class="profile_name box">
-        <a id="profile_name">
-            {{ me.nickName }}
-        </a>
-    </div>
-</a> -->
+{{ profile(me) }}
 {% endblock %}
 
 {% block script %}

@@ -1,4 +1,4 @@
-{% from 'macros.html' import profile_modals, profile_image_modal, chatting_modal  %}
+{% from 'macros.html' import profile_modals, profile_image_modal, chatting_ui, profile %}
 
 <!doctype html>
 <html>
@@ -7,54 +7,54 @@
         <title>카카오톡 웹</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic/dist/semantic.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/macros.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
         {% block style %}
         {% endblock %}
     </head>
     <body>
-        <div id="body">
-            <div class="ui middle aligned center aligned grid">
-                <div class="column">
-                    <div class="ui stacked segment">
-                        {% if me.nickName %}
-                        <table class="ui very basic collapsing celled table" style="width: -webkit-fill-available;">
-                            <tbody>
-                                <tr>
-                                    <td id="bar">
-                                        <div class="ui header link" id="icon">
-                                            <i class="user icon" menu=""></i>
-                                        </div>
-                                        <div class="ui header link" id="icon">
-                                            <i class="comment icon" menu="chatting"></i>
-                                        </div>
-                                        <div class="ui header link" id="icon">
-                                            <i class="ellipsis horizontal icon" menu="setting"></i>
-                                        </div>
-                                    </td>
-                                    <td style="padding-bottom: 476px;
-                                    padding-left: 25px;">
-                                        {% block body %}
-                                        {% endblock %}
+        <table>
+            <tbody>
+                <!-- 카톡 메인 -->
+                <td class="katalk main">
+                    {% if me.nickName %}
+                    <table>
+                        <tbody>
+                            <!-- 왼쪽 선택 바 -->
+                            <td class="bar">
+                                <div class="ui header link" id="icon_div">
+                                    <i class="user icon" menu=""></i>
+                                </div>
+                                <div class="ui header link" id="icon_div">
+                                    <i class="comment icon" menu="chatting"></i>
+                                </div>
+                                <div class="ui header link" id="icon_div">
+                                    <i class="ellipsis horizontal icon" menu="setting"></i>
+                                </div>
+                            </td>
+                            <!-- 메인 -->
+                            <td class="main" style="padding-bottom: 475px;">
+                                {% block body %}
+                                {% endblock %}
 
-                                        {{ profile_modals(me) }}
-                                        {{ profile_image_modal(me) }}
-                                        {{ chatting_modal(me) }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        {% else %}
-                        <div class="login">
-                            <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code">
-                                <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>                   
-        </div>
+                                {{ profile_modals(me) }}
+                                {{ profile_image_modal(me) }}
+                            </td>
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code">
+                        <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
+                    </a>
+                    {% endif %}
+                </td>
+                <!-- 채팅창 -->
+                <td class="katalk input" style="display: none;">
+                    {{ chatting_ui(me) }}
+                </td>
+                <!-- 끝 -->
+            </tbody>
+        </table>
         <script src="{{ url_for('static', filename='lib/requirejs/require.js') }}"></script>
         <script src="{{ url_for('static', filename='script/layout.js') }}"></script>
         {% block script %}

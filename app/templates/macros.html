@@ -1,31 +1,41 @@
+{% macro profile(me) %}
+<table class="profile">
+    <tbody>
+        <td class="image">
+            {% if me.thumbnailURL %}
+            <img class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnailURL }}">
+            {% else %}
+            <img class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
+            {% endif %}
+        </td>
+        <td class="name">
+            <a>{{ me.nickName }}</a>
+        </td>
+    </tbody>
+</table>
+{% endmacro %}
+
+
 {% macro profile_modals(me) %}
-<div class="ui mini modal" id="modal-1">
+<div class="ui modal" id="modal-1">
     <div class="contents">
         <i class="close icon"></i>
-        <div style="margin-top: 380px; margin-left: 100px;">
-            <div style="margin-bottom: 15px;">
-                {% if me.thumbnailURL %}
-                <img id="profile_img2" class="ui circular image call-modal" modal-id="1-1" src="{{ me.thumbnailURL }}">
-                {% else %}
-                <img id="profile_img2" class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
-                {% endif %}
-            </div>
-            <div style="margin-left: 20px;">
-                <a id="profile_name2">
-                    {{ me.nickName }}
-                </a>
-            </div>    
+        <div class="image">
+            {% if me.thumbnailURL %}
+            <img class="ui circular image call-modal" modal-id="1-1" src="{{ me.thumbnailURL }}">
+            {% else %}
+            <img class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
+            {% endif %}
+        </div>
+        <div class="name">
+            <a>{{ me.nickName }}</a>
         </div>
     </div>
     <div class="ui fitted divider"></div>
     <div class="buttons">
-        <h5 class="ui icon header chatting">
+        <h5 class="ui icon header">
             <i class="comment icon"></i>
             나와의 채팅
-        </h5>
-        <h5 class="ui icon header">
-            <i class="pencil alternate icon"></i>
-            프로필 관리
         </h5>
     </div>
 </div>
@@ -40,38 +50,27 @@
 {% endmacro %}
 
 
-{% macro chatting_modal(me) %}
-<form class="ui chatting modal" id="modal-1-2">
-    <div class="navbar">
-        <i class="close icon"></i>
-        <a class="ui header" id="profile">
-            {% if me.thumbnailURL %}
-            <img id="profile_img" class="ui circular image call-modal" modal-id="1-1" src="{{ me.thumbnailURL }}">
-            {% else %}
-            <img id="profile_img" class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
-            {% endif %}
-            <a id="profile_name">
-                {{ me.nickName }}
-            </a>
-        </a>
+{% macro chatting_ui(me) %}
+<div class="chatting ui">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ profile(me) }}
     </div>
 
-    <div class="contents">
-        
-    </div>
+    <div class="middle"></div>
 
     <div class="footer">
-        <form action="/" method="POST">
+        <form action="/send/me" method="POST">
             <table>
                 <thead>
                     <th>
-                        <textarea name="asdf" id="" cols="" rows=""></textarea>
+                        <textarea name="message" id=""></textarea>
                     </th>
-                    <th class="bbt">
+                    <th>
                         <button type="submit" class="ui submit button">
                             전송
                         </button>
-                    </th>
+                    </t>
                 </thead>
             </table>
         </form>

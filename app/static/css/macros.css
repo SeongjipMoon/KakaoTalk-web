@@ -1,0 +1,103 @@
+/* profile */
+.profile .image {
+    width: 55px;
+    height: 55px;
+}
+
+.profile .name {
+    width: 242px;
+    padding-left: 13px;
+}
+
+.profile .name a {
+    color: black;
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    user-select:none;
+}
+/* profile_modals */
+.ui.modal {
+    background-color: #8e9ba0;
+    left: 18px;
+    top: 30px;
+    width: 360px;
+    height: 620px;
+}
+
+.ui.modal .close.icon {
+    color: white;
+    margin-left: 335px;
+    margin-top: 10px;
+}
+
+.contents {
+    height: 450px;
+}
+
+.buttons .icon.header,
+.buttons .comment.icon {
+    color: white;
+    margin-left: 50px;
+}
+
+.modal .image {
+    margin-top: 260px;
+    margin-left: 60px;
+}
+
+.modal .name {
+    margin-top: 15px;
+    margin-left: 150px;
+}
+
+.modal .name a {
+    color: white;
+    font-size: large;
+}
+
+.modal .buttons {
+    margin-left: 92px;
+    margin-top: 45px;
+}
+
+/* chatting_ui */
+
+.chatting {
+    background-color: #95b0c3;
+}
+
+.chatting.ui .header {
+    margin-left: 13px;
+    margin-bottom: 13px;
+}
+
+.chatting i {
+    color: #868686;
+    margin-top: 4px;
+    margin-left: 317px;
+}
+
+.middle {
+    background-color: #a0c0d7;
+    height: 450px;
+}
+
+.chatting textarea {
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 253px;
+    height: 93px;
+    border: 0;
+    outline: none;
+}
+
+.footer {
+    background-color: white;
+}
+
+.chatting .button {
+    background-color: #ffee52;
+    margin-bottom: 60px;
+}

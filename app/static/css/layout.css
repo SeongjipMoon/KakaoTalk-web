@@ -2,46 +2,45 @@ body {
     background-color: #DADADA;
 }
 
-.image {
-    margin-top: -100px;
-}
-
-.column {
-    max-width: 420px;
-    max-height: 700px;
-}
-
-.ui.stacked.segment {
+/* 카톡 메인 */
+.katalk.main {
+    width: 392px;
     height: 700px;
-    border-width: 0px;
+
     padding: 0px;
 }
 
-.ui.table {
-    height: -webkit-fill-available;
-}
-
-/* mobile 크기 때매 한거 */
-.ui.table:not(.unstackable) tbody {
-    width: auto !important;
-}
-
-#bar {
+.bar {
     background-color: #efefef;
-    padding-bottom: 450px !important;
-    
-    padding-left: 8px;
-    padding-right: 5px;
-    width: 54px !important;
+    height: 700px;
+    width: 60px;
+    padding-bottom: 420px;
 }
 
-#icon {
-    padding-left: 11px;
-    padding-bottom: 15px;
+.bar #icon_div {
+    margin: 0px;
 }
 
+
+.bar #icon_div i {
+    height: 70px;
+    width: 60px;
+    margin-right: 0px;
+}
+
+.main {
+    background-color: white;
+    height: 700px;
+    width: 326px;
+    padding-left: 20px;
+}
+
+/**/
 
 #title {
-    margin-left: 3px;
     font-size: x-large;
+}
+
+.katalk.input {
+    padding-left: 30px;
 }
