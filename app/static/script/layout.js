@@ -10,7 +10,7 @@ require(['/static/config.js'], function () {
 
 
         $(document).on('dblclick', '.profile .name', function(e) {
-            $('.katalk.input').show();
+            $(location).attr('href', '' + '/test')
         });
         $(document).on('click', '.buttons', function(e) {
             $('.katalk.input').show();
@@ -18,6 +18,8 @@ require(['/static/config.js'], function () {
         });
         $(document).on('click', '.close.icon', function(e) {
             $('.katalk.input').hide();
+            
         });
+
     });
 });

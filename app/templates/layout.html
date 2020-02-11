@@ -11,8 +11,9 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
         {% block style %}
         {% endblock %}
-
-        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" 
+            integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous">
+        </script>
     </head>
     <body>
         <table>
@@ -55,11 +56,6 @@
                     </div>
                     {% endif %}
                 </td>
-                <!-- 채팅창 -->
-                <td class="katalk input" style="display: none;">
-                    {{ chatting_ui(me) }}
-                </td>
-                <!-- 끝 -->
             </tbody>
         </table>
         <script src="{{ url_for('static', filename='lib/requirejs/require.js') }}"></script>
