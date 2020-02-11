@@ -28,7 +28,7 @@ def make_message_form(message, web_url, mobile_web_url):
 
 @app.route('/chatting')
 def chatting():
-    me = get_me()
+    me = get_me(session['access_token'])
     
     return render_template('chatting.html', me=me)
 

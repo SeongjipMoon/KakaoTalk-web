@@ -2,9 +2,10 @@ from flask import Flask, render_template, redirect, \
     request, session
 import requests
 import json
+import os
 
 from app import app
-from app.tools import save_token, call_token
+from app.tools import get_me
 from app.constants import *
 
 '''
@@ -17,7 +18,7 @@ from app.constants import *
 5. Third 앱에서는 전달받은 인증 코드를 기반으로 사용자 토큰(Access Token, Refresh Token)을 요청하고 얻게 됩니다.
 '''
 def get_auth_headers():
-    access_token = call_token()
+    access_token = session['access_token']
     headers = { 
         'Authorization': "Bearer " + str(access_token) 
     }
@@ -26,7 +27,9 @@ def get_auth_headers():
 
 # 사용자 토큰 받기
 def get_user_tocken(code):
-    payload = "grant_type=authorization_code&client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL + "/oauth" + "&code=" + str(code)
+    payload = "grant_type=authorization_code&client_id=" \
+        + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL + \
+        "/oauth" + "&code=" + str(code)
    
     headers = {
         'Content-type': "application/x-www-form-urlencoded;charset=utf-8",
@@ -35,16 +38,8 @@ def get_user_tocken(code):
     
     response = requests.post(OAUTH_TOKEN_URL, data=payload, headers=headers)
     access_token = json.loads(((response.text).encode('utf-8')))['access_token']
-    save_token(access_token)
 
     return access_token
-
-
-# def signup(access_token):
-#     headers = get_auth_headers()
-#     response = requests.post(SIGNUP_URL, headers=headers)
-
-#     return response
 
 
 @app.route('/oauth')
@@ -52,7 +47,11 @@ def oauth():
     code = request.args.get('code')
     
     access_token = get_user_tocken(code)
-    # signup(access_token)
+
+    session['access_token'] = access_token
+    session['session'] = os.urandom(24)
+    me = get_me(access_token)
+    session['ninkName'] = me['nickName']
 
     return redirect('/')
 

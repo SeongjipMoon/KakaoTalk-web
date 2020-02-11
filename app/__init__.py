@@ -14,9 +14,9 @@ from app.constants import *
 
 @app.route('/')
 def index():
-    me = get_me()
-        
-    print(session)
+    me = None
+    if 'access_token' in session:
+        me = get_me(session['access_token'])
 
     return render_template('index.html', me=me, CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL)
 

@@ -1,15 +1,15 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, \
+    request, session
 import requests
 import json
 
 from app import app
-from app.tools import call_token
 from app.constants import *
 
 
 @app.route('/friend')
 def friend():
-    access_token = call_token()
+    access_token = session['access_token']
 
     url = 'https://kapi.kakao.com/v1/api/talk/friends'
     headers = { 
