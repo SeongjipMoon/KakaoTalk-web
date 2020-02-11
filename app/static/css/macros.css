@@ -64,27 +64,100 @@
 
 /* chatting_ui */
 
+/* //////////////////// */
+/* profile */
+
+.comment {
+    height: 80px;
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+}
+
+.comments .comment .image {
+    border-radius: 2.25rem !important;
+}
+
+.comments .log.label {
+    margin-left: 95px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.comments .label.text {
+    max-width: 250px;
+    font-size: 12px !important;
+    font-weight: 100 !important;
+}
+
+.comments .date {
+    font-size: smaller;
+}
+
+.comments .comment .content {
+    padding-top: 13px !important;
+}
+
+.comment .avatar {
+    width: 55px !important;
+    height: 55px !important;
+    margin: 10px !important;
+}
+
+.ui .scrolling.content {
+    min-height: 460px;
+    max-height: 100px !important;
+    padding: 0px;
+    overflow-x: scroll;
+}
+
+/* chatting_ui */
+
 .chatting {
-    background-color: #95b0c3;
+    background-color: #a0c0d7;
+    width: 340px;
 }
 
 .chatting.ui .header {
-    margin-left: 13px;
-    margin-bottom: 13px;
+    background-color: #95b0c3;
+    margin-bottom: 0px;
+    height: 60px;
 }
 
-.chatting i {
-    color: #868686;
+.chatting.ui i {
+    padding-top: 15px !important;
+}
+
+.chatting.ui .content {
+    padding-top: 10px;
+}
+
+.chatting.ui .content.name {
+    padding-top: 20px;
+}
+
+.content.name {
+    padding-left: 110px !important;
+}
+
+.chatting i,
+.chatting div {
+    /* color: #868686;
     margin-top: 4px;
-    margin-left: 317px;
+    margin-left: 317px; */
+    color: white;
 }
 
 .middle {
-    background-color: #a0c0d7;
     height: 450px;
 }
 
-.chatting textarea {
+.middle textarea {
+    background-color: #a0c0d7;
+    width: 340px;
+    height: 451px;
+}
+
+.chatting .input {
     margin-top: 5px;
     margin-left: 5px;
     width: 253px;
@@ -100,4 +173,19 @@
 .chatting .button {
     background-color: #ffee52;
     margin-bottom: 60px;
+}
+
+
+.enter {
+    padding-left: 40px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+
+.enter a {
+    color: black;
+}
+
+.comments .comment .right.avatar {
+    float: right;
 }

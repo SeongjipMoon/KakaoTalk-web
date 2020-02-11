@@ -51,29 +51,48 @@
 
 
 {% macro chatting_ui(me) %}
+<script type="text/javascript" charset="utf-8">
+    
+</script>
+
 <div class="chatting ui">
-    <i class="close icon"></i>
-    <div class="header">
-        {{ profile(me) }}
+    <h3 class="ui header">
+        <i class="angle left icon" onclick="leave_room();"></i>
+        <div class="content name">
+            이정윤
+        </div>
+    </h3>
+    <div class="middle">
+        <div class="scrolling content" style="width: 341px;">
+            <div class="ui large comments">
+                <div class="ui log label">2020년 2월 11일 화요일</div>
+
+                <!-- <div class="comment right aligned">
+                    <a class="avatar" style="float: right !important;">
+                        <img class="ui circular image" src="/static/images/default.png">
+                    </a>
+                    <div class="content" style="margin-left: 10px;">
+                        <div style="margin-left: 150px;">
+                            <div class="metadata">
+                                <span class="date">오후 3:51</span>
+                            </div>
+                            <a class="author">아구몬</a>
+                        </div>
+                        <div class="ui right pointing label text" style="left: 200px;">
+                            안녕하세요.
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
     </div>
-
-    <div class="middle"></div>
-
     <div class="footer">
-        <form action="/send/me" method="POST">
-            <table>
-                <thead>
-                    <th>
-                        <textarea name="message" id=""></textarea>
-                    </th>
-                    <th>
-                        <button type="submit" class="ui submit button">
-                            전송
-                        </button>
-                    </t>
-                </thead>
-            </table>
-        </form>
+        <table>
+            <thead>
+                <th><textarea class="input" id="text"></textarea></th>
+                <th><button type="submit" class="ui submit button">전송</button></t>
+            </thead>
+        </table>
     </div>
 </div>
 {% endmacro %}

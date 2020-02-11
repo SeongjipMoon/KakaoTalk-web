@@ -44,3 +44,7 @@ body {
 .katalk.input {
     padding-left: 30px;
 }
+
+.login a{
+    margin-left: 80px;
+}
