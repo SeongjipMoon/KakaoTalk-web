@@ -11,6 +11,8 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
         {% block style %}
         {% endblock %}
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     </head>
     <body>
         <table>
@@ -43,9 +45,14 @@
                         </tbody>
                     </table>
                     {% else %}
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code">
-                        <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
-                    </a>
+                    <div class="login">
+                        <h1 class="ui center aligned header">
+                            카카오톡 웹
+                        </h1>
+                        <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code">
+                            <img src="{{ url_for('static', filename='images/logo/kakao_account_login_btn_medium_narrow.png') }}" alt="카카오톡 웹">
+                        </a>
+                    </div>
                     {% endif %}
                 </td>
                 <!-- 채팅창 -->
