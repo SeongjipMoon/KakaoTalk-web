@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, \
+    request, session
 import requests
 import json
 
@@ -15,11 +16,16 @@ from app.constants import *
 4. 위 3까지 성공적으로 수행되었다면 인증 코드(Authorization Code)가 발급됩니다. 해당 인증 코드는 Redirection URI를 기반으로 Third 앱에 전달됩니다.
 5. Third 앱에서는 전달받은 인증 코드를 기반으로 사용자 토큰(Access Token, Refresh Token)을 요청하고 얻게 됩니다.
 '''
+def get_auth_headers():
+    access_token = call_token()
+    headers = { 
+        'Authorization': "Bearer " + str(access_token) 
+    }
+    return headers
 
 
-def get_tocken(code):
-    url = 'https://kauth.kakao.com/oauth/token'
-
+# 사용자 토큰 받기
+def get_user_tocken(code):
     payload = "grant_type=authorization_code&client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL + "/oauth" + "&code=" + str(code)
    
     headers = {
@@ -27,60 +33,87 @@ def get_tocken(code):
         'Cache-Control': "no-cache"
     }
     
-    response = requests.post(url, data=payload, headers=headers)
+    response = requests.post(OAUTH_TOKEN_URL, data=payload, headers=headers)
     access_token = json.loads(((response.text).encode('utf-8')))['access_token']
     save_token(access_token)
 
     return access_token
 
 
-def signup(access_token):
-    url = 'https://kauth.kakao.com/vi/user/signup'
+# def signup(access_token):
+#     headers = get_auth_headers()
+#     response = requests.post(SIGNUP_URL, headers=headers)
 
-    headers = {
-        'Content-type': "application/x-www-form-urlencoded;charset=utf-8",
-        'Cache-Control': "no-cache",
-        'Authorization': "Bearer " + str(access_token)
-    }
-
-    response = requests.post(url, headers=headers)
-
-    return response
+#     return response
 
 
 @app.route('/oauth')
 def oauth():
     code = request.args.get('code')
     
-    access_token = get_tocken(code)
-    signup(access_token)
+    access_token = get_user_tocken(code)
+    # signup(access_token)
 
     return redirect('/')
 
 
+# 로그아웃
 @app.route('/logout')
 def logout():
-    access_token = call_token()
+    headers = get_auth_headers()
+    response = requests.post(LOGOUT_URL, headers=headers)
 
-    url = 'https://kapi.kakao.com/v1/user/logout'
-    headers = {
-        'Authorization': "Bearer " + str(access_token)
-    }
-
-    response = requests.post(url, headers=headers)
+    session.clear()
     
     return redirect('/')
 
 
+# 앱 연결 해제
 @app.route('/unlink')
 def unlink():
-    access_token = call_token()
+    headers = get_auth_headers()
+    response = requests.post(UNLINK_URL, headers=headers)
 
-    url = 'https://kapi.kakao.com/v1/user/unlink'
+    return redirect('/')
+
+
+# 사용자 정보 요청
+# https://developers.kakao.com/docs/restapi/user-management#사용자-정보-요청
+@app.route('/user/me')
+def user_me():
+    headers = get_auth_headers()
+    req = requests.post(USER_ME_URL, headers=headers)
+
+    return redirect('/')
+
+
+# 사용자 리스트 요청
+# https://developers.kakao.com/docs/restapi/user-management#사용자-리스트-요청
+@app.route('/user/list')
+def user_list():
     headers = {
-        'Authorization': "Bearer " + str(access_token)
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Authorization': 'KakaoAK ' + ''
     }
 
-    response = requests.post(url, headers=headers)
-    
+    res = requests.get(USER_LIST_URL, headers=headers)
+    print(res.text)
+
     return redirect('/')
+
+
+# 사용자 토큰 유효성 검사 및 정보 얻기
+# https://developers.kakao.com/docs/restapi/user-management#사용자-토큰-유효성-검사-및-정보-얻기
+@app.route('/user/access/token/info')
+def user_access_token_info():
+    url = 'https://kapi.kakao.com/v1/user/access_token_info'
+    headers = get_auth_headers()
+
+    res = requests.get(url, headers=headers)
+    print(res.text)
+
+    return redirect('/')
+
+
+# 동적동의
+# https://developers.kakao.com/docs/restapi/user-management#동적동의
