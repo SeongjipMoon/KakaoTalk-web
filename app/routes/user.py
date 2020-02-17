@@ -11,7 +11,7 @@ from app.constants import *
 '''
 회원가입 절차
 
-1. 사용자는 카카오계정으로 로그인 버튼을 클릭합니다. 
+1. 사용자는 카카오계정으로 로그인 버튼을 클릭합니다.
 2. 카카오톡 앱에 연결된 카카오계정의 자격정보(Credentials)를 통해 사용자를 인식합니다.
 3. 자격정보가 올바르다면 사용자(Resource Owner)로부터 접근 자원에 대한 동의/허가를 얻습니다.
 4. 위 3까지 성공적으로 수행되었다면 인증 코드(Authorization Code)가 발급됩니다. 해당 인증 코드는 Redirection URI를 기반으로 Third 앱에 전달됩니다.
@@ -19,8 +19,8 @@ from app.constants import *
 '''
 def get_auth_headers():
     access_token = session['access_token']
-    headers = { 
-        'Authorization': "Bearer " + str(access_token) 
+    headers = {
+        'Authorization': "Bearer " + str(access_token)
     }
     return headers
 
@@ -30,12 +30,12 @@ def get_user_tocken(code):
     payload = "grant_type=authorization_code&client_id=" \
         + CLIENT_ID + "&redirect_uri=" + REDIRECT_URL + \
         "/oauth" + "&code=" + str(code)
-   
+
     headers = {
         'Content-type': "application/x-www-form-urlencoded;charset=utf-8",
         'Cache-Control': "no-cache"
     }
-    
+
     response = requests.post(OAUTH_TOKEN_URL, data=payload, headers=headers)
     access_token = json.loads(((response.text).encode('utf-8')))['access_token']
 
@@ -45,7 +45,7 @@ def get_user_tocken(code):
 @app.route('/oauth')
 def oauth():
     code = request.args.get('code')
-    
+
     access_token = get_user_tocken(code)
 
     session['access_token'] = access_token
@@ -63,7 +63,7 @@ def logout():
     response = requests.post(LOGOUT_URL, headers=headers)
 
     session.clear()
-    
+
     return redirect('/')
 
 
@@ -72,6 +72,8 @@ def logout():
 def unlink():
     headers = get_auth_headers()
     response = requests.post(UNLINK_URL, headers=headers)
+
+    session.clear()
 
     return redirect('/')
 
