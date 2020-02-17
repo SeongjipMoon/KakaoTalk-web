@@ -53,6 +53,12 @@ $(document).ready(function(){
         $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
     });
 
+    $('#submit').click(function() {
+        text = $('#text').val();
+        $('#text').val('');
+        socket.emit('text', {msg: text});
+    });
+
     $('#text').keypress(function(e) {
         var code = e.keyCode || e.which;
         if (code == 13) {
@@ -62,6 +68,7 @@ $(document).ready(function(){
             $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
         }
     });
+
     $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
 });
 
@@ -69,6 +76,6 @@ function leave_room() {
     socket.emit('left', {}, function() {
         socket.disconnect();
 
-        window.location.href = "{{ url_for('index') }}";
+        window.location.href = "/";
     });
 }
