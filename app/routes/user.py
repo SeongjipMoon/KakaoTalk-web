@@ -52,6 +52,7 @@ def oauth():
     session['session'] = os.urandom(24)
     me = get_me(access_token)
     session['profile_nickname'] = me['profile_nickname']
+    session['profile_img'] = me['profile_thumbnail_image']
 
     return redirect('/')
 

@@ -38,8 +38,10 @@ def index():
         friends_cnt=friends_cnt, star=star)
 
 
-@app.route('/test')
-def test():
+@app.route('/chat')
+def chat():
     me = get_me(session['access_token'])
-    room = 'test'
+
+    print(me)
+    room = 'apple'
     return render_template('test.html', me=me, room=room)

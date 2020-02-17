@@ -15,18 +15,28 @@
         <script src="{{ url_for('static', filename='script/chatting.js') }}"></script>
     </head>
     <body>
+        <h1>{{ room }}</h1>
         <div class="chatting ui">
             <h3 class="ui header">
                 <i class="angle left icon" onclick="leave_room();"></i>
-                <div class="content name">
-                    {{ me.nickName }}
+                <div id="nickName" class="content name">
+                    {{ me.profile_nickname }}
                 </div>
             </h3>
             <div class="middle">
-                <div class="scrolling content" style="width: 341px;">
+                <div class="scrolling content" style="width: 340px;">
                     <div class="ui large comments">
                         <div class="ui log label">2020년 2월 11일 화요일</div>
-                        
+
+                        <!-- <div class="comment" style="text-align: right; margin-right: 20px;">
+                            <div class="content">
+                                <div class="metadata">
+                                    <span class="date">21:56</span>
+                                </div>
+                                <div class="ui right pointing label text">asd</div>
+                            </div>
+                        </div> -->
+
                     </div>
                 </div>
             </div>

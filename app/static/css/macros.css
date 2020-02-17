@@ -68,7 +68,7 @@
 /* profile */
 
 .comment {
-    height: 80px;
+    height: 75px;
     padding-top: 0px !important;
     margin-top: 0px !important;
 }
@@ -98,8 +98,8 @@
 }
 
 .comment .avatar {
-    width: 55px !important;
-    height: 55px !important;
+    width: 40px !important;
+    height: 40px !important;
     margin: 10px !important;
 }
 

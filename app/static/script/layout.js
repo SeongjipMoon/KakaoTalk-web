@@ -10,7 +10,7 @@ require(['/static/config.js'], function () {
 
 
         $(document).on('dblclick', '.profile .name', function(e) {
-            $(location).attr('href', '' + '/test')
+            $(location).attr('href', '' + '/chat')
         });
         $(document).on('click', '.buttons', function(e) {
             $('.katalk.input').show();
