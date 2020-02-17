@@ -18,7 +18,18 @@
     </div>
     <div class="results"></div>
 </div>
+
 {{ profile(me) }}
+
+<div class="ui section divider" 
+style="margin-top: 10px; margin-bottom: 10px;
+margin-right: 20px;"></div>
+
+<p>친구 {{ friends_cnt }}</p>
+{% for friend in friends %}
+    {{ profile(friend) }}
+{% endfor %}
+
 {% endblock %}
 
 {% block script %}

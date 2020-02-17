@@ -20,7 +20,7 @@
             <tbody>
                 <!-- 카톡 메인 -->
                 <td class="katalk main">
-                    {% if me.nickName %}
+                    {% if me.profile_nickname %}
                     <table>
                         <tbody>
                             <!-- 왼쪽 선택 바 -->
@@ -36,7 +36,7 @@
                                 </div>
                             </td>
                             <!-- 메인 -->
-                            <td class="main" style="padding-bottom: 475px;">
+                            <td class="main" style="padding-bottom: 215px;">
                                 {% block body %}
                                 {% endblock %}
 
@@ -45,6 +45,9 @@
                             </td>
                         </tbody>
                     </table>
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id={{CLIENT_ID}}&redirect_uri={{REDIRECT_URL}}/oauth&response_type=code&scope=friends">
+                        agree
+                    </a>
                     {% else %}
                     <div class="login">
                         <h1 class="ui center aligned header">
@@ -56,7 +59,6 @@
                     </div>
                     {% endif %}
                 </td>
-            </tbody>
         </table>
         <a class="ui basic label" href="https://github.com/agurimon/KakaoTalk-web" target="_blank">
             <i class="star icon"></i> Star {{ star }}

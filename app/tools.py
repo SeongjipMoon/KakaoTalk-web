@@ -19,7 +19,9 @@ def get_me(access_token):
 
     data = json.loads(response.text)
     if 'nickName' in data:
-        me = data
+        me = dict()
+        me['profile_nickname'] = data['nickName']
+        me['profile_thumbnail_image'] = data['thumbnailURL']
 
     return me
 
