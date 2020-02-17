@@ -33,104 +33,17 @@ def chatting():
     return render_template('chatting.html', me=me)
 
 
-# @app.route('/chatting/me')
-# def chatting_me():
-    me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-    me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-    me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-    me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-    me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-        me = None
-    access_token = call_token()
-
-    url = 'https://kapi.kakao.com/v1/api/talk/profile'
-    headers = {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': "Bearer " + str(access_token) 
-    }
-    response = requests.post(url, headers=headers)
-
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        me = data
-
-    return render_template('index.html', me=me)
-
-
 @app.route('/send/me', methods=["GET", "POST"])
-def send_me():
-    if request.method == 'POST':
-        message = request.form['message']
+def send_me(message):
+    token = session.get('access_token')
+    headers = make_auth_headers(token)
+    web = 'https://naver.com'
 
-        headers = make_auth_headers()
+    message_form = make_message_form(message, web, web)
+    response = requests.request("POST", SEND_MESSAGE_ME_TO_URL, \
+        data=message_form, headers=headers)
 
-        web = 'https://naver.com'
-
-        message_form = make_message_form(message, web, web)
-        response = requests.request("POST", SEND_MESSAGE_ME_TO_URL, \
-            data=message_form, headers=headers)
-
-        if response.status_code == '404':
-            return 'error'
-
-    return redirect('/')
+    if response.status_code == '404':
+        return 'error'
+    
+    return 'success'

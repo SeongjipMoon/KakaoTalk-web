@@ -51,7 +51,7 @@ def oauth():
     session['access_token'] = access_token
     session['session'] = os.urandom(24)
     me = get_me(access_token)
-    session['ninkName'] = me['nickName']
+    session['nickName'] = me['nickName']
 
     return redirect('/')
 
