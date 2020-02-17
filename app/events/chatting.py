@@ -16,10 +16,10 @@ def joined(message):
 
 @socketio.on('text', namespace='/chat')
 def text(message):
-    msg = message['msg']
-    if msg != '\n':
+    if message['msg'] != '\n':
+        msg = message['msg']
+
         send_me(msg)
-        print(session.get('nickName') + msg)
         room = session.get('room')
         emit('message', {
             'name': session.get('nickName'), 
