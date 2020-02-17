@@ -1,7 +1,8 @@
-CLIENT_ID='1714c2d9871d0b439f21d27c38051dc4'
-REDIRECT_URL='http://localhost:8080'
+import os
 
-TOKEN_ROUTE = "app/data/access_token.txt"
+
+CLIENT_ID = os.environ['CLIENT_ID']
+REDIRECT_URL = os.environ['REDIRECT_URL']
 
 HEADERS = {
     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
