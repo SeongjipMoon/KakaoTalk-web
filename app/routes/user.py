@@ -4,9 +4,10 @@ import requests
 import json
 import os
 
-from app import app
+from app import app, db
 from app.tools import get_me
 from app.constants import *
+from app.models.room import *
 
 '''
 회원가입 절차
@@ -48,8 +49,18 @@ def oauth():
 
     access_token = get_user_tocken(code)
     me = get_me(access_token)
+
+    id_katalk = me['id']
+    nickName = me['profile_nickname']
+
+    user = User.query.filter_by(id_katalk=str(id_katalk), nickName=nickName).all()
+
+    if not user:
+        user = User(id_katalk=str(id_katalk), nickName=nickName)
+        db.session.add(user)
+        db.session.commit()
     
-    session['id'] = me['id']
+    session['id'] = str(me['id'])
     session['session'] = os.urandom(24)
     session['access_token'] = access_token
     session['profile_nickname'] = me['profile_nickname']
