@@ -47,14 +47,22 @@ def oauth():
     code = request.args.get('code')
 
     access_token = get_user_tocken(code)
-
-    session['access_token'] = access_token
-    session['session'] = os.urandom(24)
     me = get_me(access_token)
+    
+    session['id'] = me['id']
+    session['session'] = os.urandom(24)
+    session['access_token'] = access_token
     session['profile_nickname'] = me['profile_nickname']
     session['profile_img'] = me['profile_thumbnail_image']
 
     return redirect('/')
+
+
+# 갑작스러운 세션 만료를 대비한 로그인
+@app.route('/login')
+def login():
+    return render_template('login.html', \
+        CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL)
 
 
 # 로그아웃
@@ -75,16 +83,6 @@ def unlink():
     response = requests.post(UNLINK_URL, headers=headers)
 
     session.clear()
-
-    return redirect('/')
-
-
-# 사용자 정보 요청
-# https://developers.kakao.com/docs/restapi/user-management#사용자-정보-요청
-@app.route('/user/me')
-def user_me():
-    headers = get_auth_headers()
-    req = requests.post(USER_ME_URL, headers=headers)
 
     return redirect('/')
 

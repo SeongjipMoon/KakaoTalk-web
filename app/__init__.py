@@ -1,9 +1,6 @@
 from flask import Flask, render_template, redirect, \
     request, session
 from flask_socketio import SocketIO
-import os
-from datetime import datetime
-import requests
 
 
 app = Flask(__name__)
@@ -22,9 +19,9 @@ def index():
     friends = list()
     friends_cnt = 0
     star = load_star()
+
     if 'access_token' in session:
         me = get_me(session['access_token'])
-
         friends_info = friend()
 
         try:
@@ -36,12 +33,3 @@ def index():
     return render_template('index.html', me=me, CLIENT_ID=CLIENT_ID,\
         REDIRECT_URL=REDIRECT_URL, friends=friends, \
         friends_cnt=friends_cnt, star=star)
-
-
-@app.route('/chat')
-def chat():
-    me = get_me(session['access_token'])
-
-    print(me)
-    room = 'apple'
-    return render_template('test.html', me=me, room=room)

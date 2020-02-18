@@ -4,22 +4,23 @@ require(['/static/config.js'], function () {
             $(location).attr('href', '' + '/' + $(e.target).attr('menu'))
         });
 
-        $(document).on('click', '.chatting', function(e) {
-            $('#modal-' + '1-2').modal('show');
-        });
-
+        // $(document).on('click', '.chatting', function(e) {
+        //     $('#modal-' + '1-2').modal('show');
+        // });
 
         $(document).on('dblclick', '.profile .name', function(e) {
-            $(location).attr('href', '' + '/chat')
+            var my_id = $(e.target).attr('id');
+            $(location).attr('href', '' + '/chat/' + my_id);
         });
-        $(document).on('click', '.buttons', function(e) {
-            $('.katalk.input').show();
-            $('#modal-1').modal('hide');
-        });
-        $(document).on('click', '.close.icon', function(e) {
-            $('.katalk.input').hide();
+
+        // $(document).on('click', '.buttons', function(e) {
+        //     $('.katalk.input').show();
+        //     $('#modal-1').modal('hide');
+        // });
+        // $(document).on('click', '.close.icon', function(e) {
+        //     $('.katalk.input').hide();
             
-        });
+        // });
 
     });
 });

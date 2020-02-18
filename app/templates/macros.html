@@ -8,7 +8,7 @@
             <img class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
             {% endif %}
         </td>
-        <td class="name">
+        <td id="{{ me.id }}" class="name">
             <a>{{ me.profile_nickname }}</a>
         </td>
     </tbody>

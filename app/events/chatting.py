@@ -7,19 +7,24 @@ from app.routes.message import *
 
 @socketio.on('joined', namespace='/chat')
 def joined(data):
-    print(data)
-    room = 'apple'
+    url =  data['url']
+    base = data['base'] + '/chat/room/'
+    room = url.replace(base, '')
+    
     join_room(room)
+
     nickName = session['profile_nickname']
-    print(nickName + '님이 입장했습니다.')
-    emit('status', {'msg': str(nickName) + '님이 입장했습니다.'}, room=room)
+    print(room + ', ' + nickName + ', 입장')
+    emit('status', {'room': room, 'msg': str(nickName) + '님이 입장했습니다.'}, room=room)
     # db에 이름, 시간 저장
 
 
 @socketio.on('left', namespace='/chat')
 def left(message):
-    print('leave')
-    pass
+    room = 'apple'
+    nickName = session['profile_nickname']
+    print(room + ', ' + nickName + ', 퇴장')
+    emit('status', {'msg': str(nickName) + '님이 나갔습니다.'}, room=room)
     # db에 이름, 시간 저장
 
 
@@ -27,11 +32,15 @@ def left(message):
 def text(message):
     msg = message['msg']
     if msg != '\n' and msg != '':
-        # send_me(msg)
+        nickName = session.get('profile_nickname')
         room = message['room']
+        msg = msg.replace('\n', '')
         
+        print(room + ', ' + nickName + ', ' + msg)
+        # send_me(msg)
         emit('message', {
-            'name': session.get('profile_nickname'), 
+            'name': nickName, 
             'msg': msg,
             'profile_img': session.get('profile_img')
             }, room=room)
+        # db에 메세지, 이름, 시간 저장

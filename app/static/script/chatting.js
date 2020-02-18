@@ -1,20 +1,28 @@
 var socket;
-    
+var room_name;
+
 $(document).ready(function(){   
     var $comments = $('.comments');
+    // socket = io.connect(document.URL)
     socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
     
     socket.on('connect', function() {
-        socket.emit('joined', {time: new Date()});
+        socket.emit('joined', {
+            url: document.URL, 
+            base: 'http://' + document.domain + ':' + location.port, 
+            time: new Date()
+        });
     });
 
     socket.on('status', function(data) {
         var message = data.msg;
+        room_name = data.room;
 
         var $div = $(`<div class="ui log label"></div>`)
             .text(message)
         
         $comments.append($div);
+        $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
     });
 
     socket.on('message', function(data) {
@@ -48,7 +56,7 @@ $(document).ready(function(){
             }
             else {
                 var $image = $(`<a class="avatar">`).append(
-                    `<img class="ui circular image" src=` + 'static/images/default.png' + `>`
+                    `<img class="ui circular image" src=` + '../../static/images/default.png' + `>`
                 );
             }
 
@@ -57,18 +65,17 @@ $(document).ready(function(){
             `).append($image, $content);
         }
         else {
-            var $text = $('<div class="ui right pointing label text">')
-            .append(message);
+            var $text = $('<div class="ui right pointing label text" style="background-color: #ffee52">')
+                .append(message);
     
             var $content = $('<div class="content">')
                 .append($metadata, $text);
 
             var $comment = $(`
-            <div class="comment" style="text-align: right; margin-right: 20px;">
+                <div class="comment" style="text-align: right; margin-right: 20px;">
             `).append($content);
         }
-        
-        
+
         $comments.append($comment);
         $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
     });
@@ -76,7 +83,7 @@ $(document).ready(function(){
     $('#submit').click(function() {
         text = $('#text').val();
         $('#text').val('');
-        socket.emit('text', {msg: text, room: 'apple'});
+        socket.emit('text', {msg: text, room: room_name});
         $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
     });
 
@@ -85,7 +92,7 @@ $(document).ready(function(){
         if (code == 13) {
             text = $('#text').val();
             $('#text').val('');
-            socket.emit('text', {msg: text, room: 'apple'});
+            socket.emit('text', {msg: text, room: room_name});
             $('.scrolling').scrollTop($('.scrolling')[0].scrollHeight);
         }
     });
