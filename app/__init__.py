@@ -1,17 +1,22 @@
 from flask import Flask, render_template, redirect, \
     request, session
 from flask_socketio import SocketIO
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config.from_object('config')
+db = SQLAlchemy(app)
 socketio = SocketIO(app)
 
 from app.constants import *
 from app import routes, events
 from app.routes.profile import friend
-from app.tools import get_me, load_star
+from app.tools import get_me, load_star, naming_room
+from app import models
+db.create_all()
 
+from app.models.room import *
 
 @app.route('/')
 def index():

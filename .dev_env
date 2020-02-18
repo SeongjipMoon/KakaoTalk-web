@@ -2,3 +2,9 @@ source venv/bin/activate
 
 export CLIENT_ID=1714c2d9871d0b439f21d27c38051dc4
 export REDIRECT_URL=http://localhost:8080
+
+export DATABASE=katalk
+export DATABASE_SERVER=localhost
+export DATABASE_PORT=3306
+export DATABASE_USER=agurimon
+export DATABASE_PASSWORD=111111
