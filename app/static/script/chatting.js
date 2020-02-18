@@ -3,7 +3,6 @@ var room_name;
 
 $(document).ready(function(){   
     var $comments = $('.comments');
-    // socket = io.connect(document.URL)
     socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
     
     socket.on('connect', function() {
@@ -101,9 +100,12 @@ $(document).ready(function(){
 });
 
 function leave_room() {
-    socket.emit('left', {}, function() {
+    socket.emit('left', {
+        url: document.URL, 
+        base: 'http://' + document.domain + ':' + location.port
+    }, 
+    function() {
         socket.disconnect();
-
         window.location.href = "/";
     });
 }

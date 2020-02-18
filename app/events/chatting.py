@@ -5,11 +5,17 @@ from app import app, socketio
 from app.routes.message import *
 
 
-@socketio.on('joined', namespace='/chat')
-def joined(data):
+def get_room_name(data):
     url =  data['url']
     base = data['base'] + '/chat/room/'
     room = url.replace(base, '')
+    
+    return room
+
+
+@socketio.on('joined', namespace='/chat')
+def joined(data):
+    room = get_room_name(data)
     
     join_room(room)
 
@@ -20,11 +26,12 @@ def joined(data):
 
 
 @socketio.on('left', namespace='/chat')
-def left(message):
-    room = 'apple'
+def left(data):
     nickName = session['profile_nickname']
+    room = get_room_name(data)
+
     print(room + ', ' + nickName + ', 퇴장')
-    emit('status', {'msg': str(nickName) + '님이 나갔습니다.'}, room=room)
+    emit('status', {'room': room, 'msg': str(nickName) + '님이 나갔습니다.'}, room=room)
     # db에 이름, 시간 저장
 
 
