@@ -3,8 +3,11 @@ from flask import Flask, render_template, redirect, \
 from bs4 import BeautifulSoup
 import requests
 import json
+from random import randint
 
+from app import db
 from app.constants import *
+from app.models.room import *
 
 
 def make_auth_headers(access_token):
@@ -48,3 +51,22 @@ def load_star():
     star = soup.find_all('a', class_='social-count')[1].text
 
     return star
+
+
+def naming_room():
+    num = randint(1, 522)
+    cnt = 0
+
+    f = open("animal_list.txt", "r")
+
+    for line in f.readlines():
+        cnt += 1
+        if cnt == num:
+            name = line.replace('\n', '').lower()
+
+            while(True):
+                room = Room.query.filter_by(name=name)
+
+                if room.count() <= 0:
+                    f.close()
+                    return name
