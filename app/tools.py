@@ -30,18 +30,21 @@ def user_me(access_token):
 def get_me(access_token):
     headers = make_auth_headers(access_token)
     response = requests.post(REQ_PROFILE_URL, headers=headers)
+    print(response.status_code)
+    if response.status_code == 200 or response.status_code == 302:
+        data = json.loads(response.text)
+        if 'nickName' in data:
+            # user_me -> katalk_id, connected_at
+            my_info = user_me(access_token)
 
-    data = json.loads(response.text)
-    if 'nickName' in data:
-        my_info = user_me(access_token)
+            me = dict()
+            me['id'] = my_info['id']
+            me['connected_at'] = my_info['connected_at']
+            me['profile_nickname'] = data['nickName']
+            me['profile_thumbnail_image'] = data['thumbnailURL']
 
-        me = dict()
-        me['id'] = my_info['id']
-        me['connected_at'] = my_info['connected_at']
-        me['profile_nickname'] = data['nickName']
-        me['profile_thumbnail_image'] = data['thumbnailURL']
-
-    return me
+        return me
+    return None
 
 
 def load_star():

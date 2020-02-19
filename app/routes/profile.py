@@ -15,6 +15,9 @@ def friend():
     
     response = requests.get(url, headers=headers)
 
-    friends = json.loads(response.text)
+    if response.status_code == 200 or response.status_code == 302:
+        friends = json.loads(response.text)
+        
+        return friends
     
-    return friends
+    return list()
