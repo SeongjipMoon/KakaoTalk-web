@@ -9,7 +9,7 @@
     padding-left: 13px;
 }
 
-.profile .name a {
+.profile .name {
     color: black;
     -ms-user-select: none; 
     -moz-user-select: -moz-none; 
