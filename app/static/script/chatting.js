@@ -25,7 +25,7 @@ $(document).ready(function(){
     });
 
     socket.on('message', function(data) {
-        var nickName = $(".content.name").text();
+        var nickName = $("#nickName").text();
         nickName = nickName.replace(/ /gi, '');
         nickName = nickName.replace(/\n/gi, '');
 

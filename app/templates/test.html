@@ -18,12 +18,20 @@
         <script src="{{ url_for('static', filename='script/chatting.js') }}"></script>
     </head>
     <body>
-        <h1>{{ room }}</h1>
+        <br>
         <div class="chatting ui">
             <h3 class="ui header">
                 <i class="angle left icon" onclick="leave_room();"></i>
-                <div id="nickName" class="content name">
-                    {{ me.profile_nickname }}
+                <div class="content name">
+                    {% if users|length == 1 %}
+                        {{ me.profile_nickname }}
+                    {% else %}
+                        {% for user in users %}
+                            {% if user.nickName != me.profile_nickname%}
+                                {{ user.nickName }}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </h3>
             <div class="middle">
@@ -42,6 +50,9 @@
                     </thead>
                 </table>
             </div>
+        </div>
+        <div id="nickName" style="visibility: hidden;">
+            {{ me.profile_nickname }}
         </div>
     </body>
 </html>

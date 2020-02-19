@@ -25,8 +25,9 @@ def chat(friend_id):
     user2 = User.query.filter_by(id_katalk=friend_id)
 
     # 존재하는 user인가 확인
-    if user1.count() <= 0 and user2.count() <= 0:
-        abort(404)
+    if user1.count() <= 0 or user2.count() <= 0:
+        print('상대방이 DB에 존재하지 않음')
+        return redirect('/')
 
     user1 = user1.first()
     user2 = user2.first()
@@ -42,6 +43,8 @@ def chat(friend_id):
 
             room = Room(name=name)
             room.users.append(user1)
+            db.session.add(room)
+            db.session.commit()
     # 다른 사람하고 채팅
     else:
         # 상대방과 과거 채팅 유무 
@@ -55,9 +58,8 @@ def chat(friend_id):
             room = Room(name=name)
             room.users.append(user1)
             room.users.append(user2)
-
-    db.session.add(room)
-    db.session.commit()
+            db.session.add(room)
+            db.session.commit()
 
     url = '/chat/room/' + room.name
 
@@ -66,10 +68,26 @@ def chat(friend_id):
 
 # 채팅 구간
 @app.route('/chat/room/<room_name>')
-def chatchat(room_name):
-    me = get_me(session['access_token'])
-    
+def chatchat(room_name):    
     date = make_date()
+
+    # 본인 검사
+    if not 'access_token' in session:
+        return redirect('/')
+    me = get_me(session['access_token'])
+
+    user = User.query.filter_by(id_katalk=me['id'])
+    if user.count() <= 0:
+        return redirect('/login')
+    user = user.first()
+
+    # 방 주인 검사
+    room = Room.query.filter_by(name=room_name)
+    if room.count() <= 0:
+        return redirect('/login')
+    room = room.first()
     
-    return render_template('test.html', me=me, \
-                    room=room_name, date=date)
+    # 모든게 OK
+    if user in room.users:
+        return render_template('test.html', me=me, \
+            room=room_name, users=room.users, date=date)
