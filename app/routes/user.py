@@ -93,6 +93,12 @@ def unlink():
     headers = get_auth_headers()
     response = requests.post(UNLINK_URL, headers=headers)
 
+    user = User.query.filter_by(id_katalk=session['id'])
+
+    if user.count() > 0:
+        db.session.delete(user.first())
+        db.session.commit()
+
     session.clear()
 
     return redirect('/')
