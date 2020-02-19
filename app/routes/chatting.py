@@ -88,6 +88,6 @@ def chatchat(room_name):
     room = room.first()
     
     # 모든게 OK
-    if user in room.users:
-        return render_template('test.html', me=me, \
+    # if user in room.users:
+    return render_template('test.html', me=me, \
             room=room_name, users=room.users, date=date)

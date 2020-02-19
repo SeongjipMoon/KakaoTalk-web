@@ -14,10 +14,10 @@ def friend():
     url = 'https://kapi.kakao.com/v1/api/talk/friends'
     
     response = requests.get(url, headers=headers)
-
+    
     if response.status_code == 200 or response.status_code == 302:
         friends = json.loads(response.text)
         
         return friends
     
-    return list()
+    return None

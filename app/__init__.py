@@ -30,8 +30,13 @@ def index():
         if me != None:
             friends_info = friend()
 
-            friends = friends_info['elements']
-            friends_cnt = friends_info['total_count']
+            if friends_info == None:
+                print(me['profile_nickname'] + ' 동의 안함')
+                return render_template('agree.html', CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL)
+
+            if friends_info:
+                friends = friends_info['elements']
+                friends_cnt = friends_info['total_count']
 
     return render_template('index.html', me=me, CLIENT_ID=CLIENT_ID,\
         REDIRECT_URL=REDIRECT_URL, friends=friends, \
