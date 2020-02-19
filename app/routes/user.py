@@ -66,6 +66,8 @@ def oauth():
     session['profile_nickname'] = me['profile_nickname']
     session['profile_img'] = me['profile_thumbnail_image']
 
+    print(nickName + ' 로그인')
+
     return redirect('/')
 
 
@@ -81,7 +83,7 @@ def login():
 def logout():
     headers = get_auth_headers()
     response = requests.post(LOGOUT_URL, headers=headers)
-
+    print(session['profile_nickname'] + ' 로그아웃')
     session.clear()
 
     return redirect('/')
@@ -98,7 +100,7 @@ def unlink():
     if user.count() > 0:
         db.session.delete(user.first())
         db.session.commit()
-
+    print(session['profile_nickname'] + ' 회원탈퇴')
     session.clear()
 
     return redirect('/')

@@ -20,7 +20,7 @@ def joined(data):
     join_room(room)
 
     nickName = session['profile_nickname']
-    print(room + ', ' + nickName + ', 입장')
+    print(room + ', ' + nickName + ',+ 입장했습니다.')
     emit('status', {'room': room, 'msg': str(nickName) + '님이 입장했습니다.'}, room=room)
     # db에 이름, 시간 저장
 
@@ -30,24 +30,26 @@ def left(data):
     nickName = session['profile_nickname']
     room = get_room_name(data)
 
-    print(room + ', ' + nickName + ', 퇴장')
+    print(room + ', ' + nickName + '- 퇴장했습니다.')
     emit('status', {'room': room, 'msg': str(nickName) + '님이 나갔습니다.'}, room=room)
     # db에 이름, 시간 저장
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
-    msg = message['msg']
-    if msg != '\n' and msg != '':
-        nickName = session.get('profile_nickname')
-        room = message['room']
-        msg = msg.replace('\n', '')
-        
-        print(room + ', ' + nickName + ', ' + msg)
-        # send_me(msg)
-        emit('message', {
-            'name': nickName, 
-            'msg': msg,
-            'profile_img': session.get('profile_img')
-            }, room=room)
-        # db에 메세지, 이름, 시간 저장
+    if 'msg' in message:
+        msg = message['msg']
+        if msg != '\n' and msg != '':
+            nickName = session.get('profile_nickname')
+            room = message['room']
+            msg = msg.replace('\n', '')
+            
+            print(room + ', ' + nickName + ', ' + msg)
+            emit('message', {
+                'name': nickName, 
+                'msg': msg,
+                'profile_img': session.get('profile_img')
+                }, room=room)
+
+            send_me(msg)
+            # db에 메세지, 이름, 시간 저장

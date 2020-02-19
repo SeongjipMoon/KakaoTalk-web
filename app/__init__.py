@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 import requests
 
 app = Flask(__name__)
+
+app.debug = False
 app.config.from_object('config')
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
