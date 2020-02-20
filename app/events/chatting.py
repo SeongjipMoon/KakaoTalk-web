@@ -50,9 +50,10 @@ def text(message):
                 'msg': msg,
                 'profile_image': session['profile_image']
                 }, room=room)
-
-            room = mongo.db.rooms.find_one({'name': room})
-
+            
+            name = room.replace('http://katalk.junghub.kr/chat/room/', '')
+            room = mongo.db.rooms.find_one({'name': name})
+            
             if room['group'] == False:
                 send_me(msg)
             else:
