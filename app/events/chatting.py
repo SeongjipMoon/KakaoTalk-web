@@ -19,7 +19,7 @@ def joined(data):
     
     join_room(room)
 
-    nickName = session['profile_nickname']
+    nickName = session['nickname']
     print(room + ', ' + nickName + ',+ 입장했습니다.')
     emit('status', {'room': room, 'msg': str(nickName) + '님이 입장했습니다.'}, room=room)
     # db에 이름, 시간 저장
@@ -27,7 +27,7 @@ def joined(data):
 
 @socketio.on('left', namespace='/chat')
 def left(data):
-    nickName = session['profile_nickname']
+    nickName = session['nickname']
     room = get_room_name(data)
 
     print(room + ', ' + nickName + '- 퇴장했습니다.')
@@ -40,7 +40,7 @@ def text(message):
     if 'msg' in message:
         msg = message['msg']
         if msg != '\n' and msg != '':
-            nickName = session.get('profile_nickname')
+            nickName = session['nickname']
             room = message['room']
             msg = msg.replace('\n', '')
             
@@ -48,8 +48,12 @@ def text(message):
             emit('message', {
                 'name': nickName, 
                 'msg': msg,
-                'profile_img': session.get('profile_img')
+                'profile_image': session['profile_image']
                 }, room=room)
 
-            send_me(msg)
-            # db에 메세지, 이름, 시간 저장
+            room = mongo.db.rooms.find_one({'name': room})
+
+            if room['group'] == False:
+                send_me(msg)
+            else:
+                send_friend(room['users'], msg)

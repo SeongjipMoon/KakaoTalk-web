@@ -1,12 +1,3 @@
-import os
-
-
-# session secret
-SECRET_KEY = 'secret'
-
-CLIENT_ID = os.environ['CLIENT_ID']
-REDIRECT_URL = os.environ['REDIRECT_URL']
-
 HEADERS = {
     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     'Cache-Control' : "no-cache"
@@ -24,13 +15,3 @@ LOGOUT_URL = 'https://kapi.kakao.com/v1/user/logout'
 UNLINK_URL = 'https://kapi.kakao.com/v1/user/unlink'
 USER_ME_URL = 'https://kapi.kakao.com/v2/user/me'
 USER_LIST_URL = 'https://kapi.kakao.com/v1/user/ids'
-
-
-# db config
-SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format(
-    os.environ['DATABASE_USER'],
-    os.environ['DATABASE_PASSWORD'],
-    os.environ['DATABASE_SERVER'],
-    os.environ['DATABASE_PORT'],
-    os.environ['DATABASE']
-)

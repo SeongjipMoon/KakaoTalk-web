@@ -1,11 +1,10 @@
 from flask import render_template, url_for, redirect, abort
 from datetime import datetime
 
-from app import app
+from app import app, mongo
 from app.tools import *
 from app.constants import *
 from app.routes.user import *
-from app.models.room import *
 
 
 def make_date():
@@ -19,75 +18,75 @@ def make_date():
 
 
 # 환승 구간 / 채팅방 필터 -> 옳밣륺 채팅방으로 라우팅
-@app.route('/chat/<friend_id>')
+@app.route('/chat/<int:friend_id>')
 def chat(friend_id):
-    user1 = User.query.filter_by(id_katalk=session['id'])
-    user2 = User.query.filter_by(id_katalk=friend_id)
+    user1 = mongo.db.users.find_one({'id': session['id']})
+    user2 = mongo.db.users.find_one({'id': friend_id})
 
     # 존재하는 user인가 확인
-    if user1.count() <= 0 or user2.count() <= 0:
+    if not user2:
         print('상대방이 DB에 존재하지 않음')
         return redirect('/')
 
-    user1 = user1.first()
-    user2 = user2.first()
-
     # 내게 쓰기
     if user1 == user2:
-        # 방에 사람이 혼자 있는가로 내게 쓰기 채팅방 분류
-        for room in user1.rooms:
-            if len(room.users) == 1:
-                break
-        else:
+        room = mongo.db.rooms.find_one({
+            'group': False,
+            'users': user1
+        })
+        # 내게 쓰기 방의 유무
+        if not room:
             name = naming_room()
-
-            room = Room(name=name)
-            room.users.append(user1)
-            db.session.add(room)
-            db.session.commit()
+            mongo.db.rooms.insert_one({
+                'name' : name,
+                'group': False,
+                'users': user1
+            })
+        else:
+            name = room['name']
     # 다른 사람하고 채팅
     else:
+        room1 = mongo.db.rooms.find_one({
+            'group': True,
+            'users': [user1, user2]
+        })
+        room2 = mongo.db.rooms.find_one({
+            'group': True,
+            'users': [user2, user1]
+        })
+ 
         # 상대방과 과거 채팅 유무 
-        for room in user1.rooms:
-            ## sqlalchemy.orm.exc.FlushError
-            if room in user2.rooms:
-                break
-        else:
+        if not room1 and not room2:
             name = naming_room()
+            mongo.db.rooms.insert_one({
+                'name' : name,
+                'group': True,
+                'users': [user1, user2] 
+            })
+        else:
+            if room1:
+                name = room1['name']
+            else:
+                name = room2['name']
 
-            room = Room(name=name)
-            room.users.append(user1)
-            room.users.append(user2)
-            db.session.add(room)
-            db.session.commit()
-
-    url = '/chat/room/' + room.name
-
+    url = '/chat/room/' + name
     return redirect(url)
 
 
 # 채팅 구간
 @app.route('/chat/room/<room_name>')
-def chatchat(room_name):    
-    date = make_date()
-
-    # 본인 검사
+def chatting_room(room_name):
     if not 'access_token' in session:
+        print('session이 존재하지 않음')
         return redirect('/')
-    me = get_me(session['access_token'])
 
-    user = User.query.filter_by(id_katalk=me['id'])
-    if user.count() <= 0:
-        return redirect('/login')
-    user = user.first()
-
-    # 방 주인 검사
-    room = Room.query.filter_by(name=room_name)
-    if room.count() <= 0:
-        return redirect('/login')
-    room = room.first()
+    me = mongo.db.users.find_one({'id': int(session['id'])})
+    if not me:
+        print(room_name + ' 방 - 세션과 일치하는 유저 정보가 없음')
+        session.clear()
+        return redirect('/')
     
-    # 모든게 OK
-    # if user in room.users:
+    room = mongo.db.rooms.find_one({'name': room_name})
+    
     return render_template('test.html', me=me, \
-            room=room_name, users=room.users, date=date)
+            room_name=room_name, room=room, date=make_date())

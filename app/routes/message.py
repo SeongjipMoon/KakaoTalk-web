@@ -1,11 +1,11 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session
 import requests
 import json
 
-from app import app
+from app import app, mongo
 from app.tools import *
 from app.constants import *
-
+from app.routes.profile import *
 
 def make_message_form(friend, message, web_url, mobile_web_url):
     payloadDict = dict({
@@ -32,13 +32,13 @@ def make_message_form(friend, message, web_url, mobile_web_url):
 
 @app.route('/chatting')
 def chatting():
-    me = get_me(session['access_token'])
+    me = mongo.db.users.find_one({"id": session['id']})
     
     return render_template('chatting.html', me=me)
 
 
-@app.route('/send/me', methods=["GET", "POST"])
-def send_me(message):
+@app.route('/send/me')
+def send_me(message='no content'):
     token = session.get('access_token')
     headers = make_auth_headers(token)
     web = 'http://katalk.junghub.kr'
@@ -53,23 +53,25 @@ def send_me(message):
     return 'success'
 
 
-@app.route('/send/friend', methods=["GET", "PORT"])
-def send_friend():
-    token = session.get('access_token')
+@app.route('/send/friend')
+def send_friend(users=list(), message='no content'):
+    token = session['access_token']
     headers = make_auth_headers(token)
-    web = 'https://naver.com'
+    web = 'https://katalkjunghub.kr'
 
-    message = 'hello, world!'
+    ok, friends, friends_cnt = friend(token)
 
-    uuid = '_c_5y_LL88X90eLS4dfg1ezd5cn6w_fP_89F'
-    message_form = make_message_form(uuid, message, web, web)
+    for user in users:
+        for fd in friends:
+            if user['id'] == fd['id']:
+                message_form = make_message_form(
+                    fd['uuid'], message, web, web
+                )
+                response = requests.post(SEND_MESSAGE_TO_FRIEND_URL, \
+                    data=message_form, headers=headers)
 
-    response = requests.post(SEND_MESSAGE_TO_FRIEND_URL, \
-        data=message_form, headers=headers)
-
-    print(response.text)
-
-    if response.status_code != '200' and response.status_code != '302':
-        return 'error'
-    
-    return 'success'
+                if response.status_code == '200' or response.status_code == '302':
+                    print(fd['nickname'], '에게 실제 메세지 전송 실패')
+                    return 'error'
+                
+                return 'success'

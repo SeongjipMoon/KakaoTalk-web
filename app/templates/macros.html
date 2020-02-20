@@ -2,14 +2,14 @@
 <table class="profile" style="margin-top: 10px;">
     <tbody>
         <td class="image">
-            {% if me.profile_thumbnail_image %}
-            <img class="ui circular image call-modal" modal-id="1" src="{{ me.profile_thumbnail_image }}">
+            {% if me.thumbnail_image %}
+            <img class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnail_image }}">
             {% else %}
             <img class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
             {% endif %}
         </td>
         <td id="{{ me.id }}" class="name">
-            {{ me.profile_nickname }}
+            {{ me.nickname }}
         </td>
     </tbody>
 </table>

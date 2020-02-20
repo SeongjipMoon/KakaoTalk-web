@@ -30,7 +30,7 @@ $(document).ready(function(){
         nickName = nickName.replace(/\n/gi, '');
 
         var name = data.name;
-        var profile_img = data.profile_img;
+        var profile_image = data.profile_image;
         var message = data.msg;
 
         var Now = new Date();
@@ -48,9 +48,9 @@ $(document).ready(function(){
             var $content = $('<div class="content">')
                 .append($name_date, $text);
 
-            if (profile_img != '') {
+            if (profile_image != '') {
                 var $image = $(`<a class="avatar">`).append(
-                    `<img class="ui circular image" src=` + profile_img + `>`
+                    `<img class="ui circular image" src=` + profile_image + `>`
                 );
             }
             else {

@@ -4,10 +4,10 @@ import requests
 import json
 import os
 
-from app import app, db
-from app.tools import get_me
+from app import app, mongo
+from app.tools import make_auth_headers
 from app.constants import *
-from app.models.room import *
+from config import *
 
 '''
 회원가입 절차
@@ -48,27 +48,50 @@ def oauth():
     code = request.args.get('code')
 
     access_token = get_user_tocken(code)
-    me = get_me(access_token)
+    me = user_me(access_token)
 
-    id_katalk = me['id']
-    nickName = me['profile_nickname']
-
-    user = User.query.filter_by(id_katalk=str(id_katalk), nickName=nickName).all()
-
-    if not user:
-        user = User(id_katalk=str(id_katalk), nickName=nickName)
-        db.session.add(user)
-        db.session.commit()
+    user = mongo.db.users.find_one({
+        "id": me['id'], 
+        "nickname": me['nickname']
+    })
     
-    session['id'] = str(me['id'])
-    session['session'] = os.urandom(24)
+    if not user:
+        mongo.db.users.insert(me)
+    
+    session['id'] = me['id']
+    session['nickname'] = me['nickname']
+    session['session'] = os.urandom(18)
     session['access_token'] = access_token
-    session['profile_nickname'] = me['profile_nickname']
-    session['profile_img'] = me['profile_thumbnail_image']
+    if 'profile_image' in me:
+        session['profile_image'] = me['profile_image']
+    else:
+        session['profile_image'] = ''
 
-    print(nickName + ' 로그인')
+    print(me['nickname'] + ' 로그인')
 
     return redirect('/')
+
+
+# 사용자 정보 요청
+# https://developers.kakao.com/docs/restapi/user-management#사용자-정보-요청
+def user_me(access_token):
+    headers = make_auth_headers(access_token)
+    req = requests.post(USER_ME_URL, headers=headers)
+
+    my_info = json.loads(req.text)
+
+    me = dict()
+
+    me['id'] = my_info['id']
+    me['nickname'] = my_info['properties']['nickname']
+
+    if 'profile_image' in my_info['properties']:
+        me['profile_image'] = my_info['properties']['profile_image']
+    if 'thumbnail_image' in my_info['properties']:
+        me['thumbnail_image'] = my_info['properties']['thumbnail_image']
+    me['connected_at'] = my_info['connected_at']
+
+    return me
 
 
 # 갑작스러운 세션 만료를 대비한 로그인
@@ -83,7 +106,7 @@ def login():
 def logout():
     headers = get_auth_headers()
     response = requests.post(LOGOUT_URL, headers=headers)
-    print(session['profile_nickname'] + ' 로그아웃')
+    print(session['nickname'] + ' 로그아웃')
     session.clear()
 
     return redirect('/')
@@ -95,12 +118,8 @@ def unlink():
     headers = get_auth_headers()
     response = requests.post(UNLINK_URL, headers=headers)
 
-    user = User.query.filter_by(id_katalk=session['id'])
-
-    if user.count() > 0:
-        db.session.delete(user.first())
-        db.session.commit()
-    print(session['profile_nickname'] + ' 회원탈퇴')
+    mongo.db.users.remove({'id': session['id']})
+    print(session['nickname'] + ' 회원탈퇴')
     session.clear()
 
     return redirect('/')
