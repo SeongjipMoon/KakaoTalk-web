@@ -1,7 +1,8 @@
 from flask import session
 from flask_socketio import send, emit, join_room, leave_room
+from datetime import datetime
 
-from app import app, socketio
+from app import app, socketio, mongo
 from app.routes.message import *
 
 
@@ -50,9 +51,36 @@ def text(message):
                 'msg': msg,
                 'profile_image': session['profile_image']
                 }, room=room)
-            
+
             name = room.replace('http://katalk.junghub.kr/chat/room/', '')
             room = mongo.db.rooms.find_one({'name': name})
+
+            users = list()
+
+            for user in room['users']:
+                if user['id'] != session['id']:
+                    users.append({
+                        'id': user['id'], 
+                        'nickname': user['nickname']
+                    })
+
+            data = {
+                'content': msg,
+                'room_name': room['name'],
+                'sender': {
+                    'id': session['id'], 
+                    'nickname': session['nickname']
+                },
+                'receviers': users,
+                'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+
+            mongo.db.messages.insert(data)
+            mee = mongo.db.messages.find_one(data)
+            mongo.db.rooms.update_one(
+                {'name' : room['name']}, 
+                {'$push': {'messages': mee}}
+            )
             
             if room['group'] == False:
                 send_me(msg)

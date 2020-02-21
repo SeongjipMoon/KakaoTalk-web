@@ -39,7 +39,39 @@
                 <div class="scrolling content" style="width: px;">
                     <div class="ui large comments">
                         <div class="ui log label">{{ date }}</div>
-
+                        {% for message in room['messages'] %}
+                            
+                            
+                            {% if message['sender']['nickname'] != me['nickname'] %}
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img class="ui circular image" src="../../static/images/default.png">
+                                </a>
+                                <div class="content">
+                                    <div>
+                                        <a class="author">{{ message['sender']['nickname'] }}</a>
+                                        <div class="metadata" style="margin-right: 10px;">
+                                            <span class="date">18:18</span>
+                                        </div>
+                                    </div>
+                                    <div class="ui left pointing label text">
+                                        {{ message['content'] }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="comment" style="text-align: right; margin-right: 20px;">
+                                <div class="content">
+                                    <div class="metadata" style="margin-right: 10px;">
+                                        <span class="date">18:18</span>
+                                    </div>
+                                    <div class="ui right pointing label text" style="background-color: #ffee52">
+                                        {{ message['content'] }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
