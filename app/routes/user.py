@@ -90,6 +90,7 @@ def user_me(access_token):
     if 'thumbnail_image' in my_info['properties']:
         me['thumbnail_image'] = my_info['properties']['thumbnail_image']
     me['connected_at'] = my_info['connected_at']
+    me['rooms'] = list()
 
     return me
 

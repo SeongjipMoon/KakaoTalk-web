@@ -32,7 +32,9 @@ def chat(friend_id):
     if user1 == user2:
         room = mongo.db.rooms.find_one({
             'group': False,
-            'users': user1
+            'users': [
+                {'id': user1['id'], 'nickname': user1['nickname']}
+            ]
         })
         # 내게 쓰기 방의 유무
         if not room:
@@ -40,36 +42,62 @@ def chat(friend_id):
             mongo.db.rooms.insert_one({
                 'name' : name,
                 'group': False,
-                'users': user1
+                'users': [
+                    {'id': user1['id'], 'nickname': user1['nickname']}
+                ]
             })
-        else:
-            name = room['name']
+            room = mongo.db.rooms.find_one({'name': name})
+            mongo.db.users.update_one(
+                {'id': user1['id']}, 
+                {'$push': {'rooms': room}}
+            )
     # 다른 사람하고 채팅
     else:
+        ############### 한번에 찾는거 필요함       
         room1 = mongo.db.rooms.find_one({
             'group': True,
-            'users': [user1, user2]
+            'users': [
+                {'id': user1['id'], 'nickname': user1['nickname']},
+                {'id': user2['id'], 'nickname': user2['nickname']}
+            ]
         })
+
         room2 = mongo.db.rooms.find_one({
             'group': True,
-            'users': [user2, user1]
+            'users': [
+                {'id': user2['id'], 'nickname': user2['nickname']},
+                {'id': user1['id'], 'nickname': user1['nickname']}
+            ]
         })
- 
+
         # 상대방과 과거 채팅 유무 
         if not room1 and not room2:
             name = naming_room()
             mongo.db.rooms.insert_one({
                 'name' : name,
                 'group': True,
-                'users': [user1, user2] 
+                'users': [
+                    {'id': user1['id'], 'nickname': user1['nickname']},
+                    {'id': user2['id'], 'nickname': user2['nickname']}
+                ]
             })
+            
+            room = mongo.db.rooms.find_one({'name': name})
+            mongo.db.users.update_one(
+                {'id': user1['id']}, 
+                {'$push': {'rooms': room}}
+            )
+            mongo.db.users.update_one(
+                {'id': user2['id']}, 
+                {'$push': {'rooms': room}}
+            )
         else:
             if room1:
-                name = room1['name']
+                room = room1
             else:
-                name = room2['name']
+                room = room2
 
-    url = '/chat/room/' + name
+    url = '/chat/room/' + room['name']
     return redirect(url)
 
 

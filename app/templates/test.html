@@ -25,11 +25,11 @@
                 <i class="angle left icon" onclick="leave_room();"></i>
                 <div class="content name">
                     {% if room['group'] == False %}
-                        {{ me.nickname }}
+                        {{ me['nickname'] }}
                     {% else %}
                         {% for user in room['users'] %}
-                            {% if user.nickname != me.nickname%}
-                                {{ user.nickname }}
+                            {% if user['id'] != me['id'] %}
+                                {{ user['nickname'] }} 
                             {% endif %}
                         {% endfor %}
                     {% endif %}
