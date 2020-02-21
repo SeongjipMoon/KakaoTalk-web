@@ -16,16 +16,18 @@ from app.routes.profile import friend
 from app.tools import load_star, naming_room
 
 
-@app.route('/check')
-def check():
+@app.route('/check/<data>')
+def check(data):
+    if data == 'users':
+        aa = mongo.db.users.find({})
+    elif data == 'rooms':
+        aa = mongo.db.rooms.find({})
+    elif data == 'messages':
+        aa = mongo.db.messages.find({})
+    
     print('------------------------------')
-    users = mongo.db.users.find({})
-    for user in users:
-        print(user, '\n')
-    print('------------------------------')
-    rooms = mongo.db.rooms.find({})
-    for room in rooms:
-        print(room, '\n')
+    for a in aa:
+        print(a, '\n')
     print('------------------------------')
 
     return redirect('/')
@@ -37,16 +39,18 @@ def reset(data):
         mongo.db.users.remove()
     elif data == 'rooms':
         mongo.db.rooms.remove()
+    elif data == 'messages':
+        mongo.db.messages.remove()
 
-    return redirect('/check')
+    check(data)
+    return redirect('/')
 
 
 @app.route('/')
 def index():
     me = None
-    friends = list()
     friends_cnt = 0
-    star = load_star()
+    friends = list()
 
     # session이 있나 없나
     if 'access_token' in session:
