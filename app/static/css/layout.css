@@ -4,7 +4,7 @@ body {
 
 /* 카톡 메인 */
 .katalk.main {
-    width: 392px;
+    min-width: 392px;
     height: 700px;
 
     padding: 0px;

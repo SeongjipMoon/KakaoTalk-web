@@ -70,4 +70,4 @@ def index():
     return render_template('index.html', \
         CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL, \
         friends=friends, friends_cnt=friends_cnt, \
-        star=star, me=me)
+        star='1.4k', me=me)

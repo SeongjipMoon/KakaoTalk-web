@@ -78,7 +78,7 @@
 }
 
 .comments .log.label {
-    margin-left: 95px;
+    margin-left: 115px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -114,7 +114,7 @@
 
 .chatting {
     background-color: #a0c0d7;
-    width: 340px;
+    width: 375px;
 }
 
 .chatting.ui .header {
@@ -136,7 +136,7 @@
 }
 
 .content.name {
-    padding-left: 110px !important;
+    padding-left: 130px !important;
 }
 
 .chatting i,
@@ -160,7 +160,7 @@
 .chatting .input {
     margin-top: 5px;
     margin-left: 5px;
-    width: 253px;
+    width: 285px;
     height: 93px;
     border: 0;
     outline: none;
