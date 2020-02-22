@@ -7,6 +7,37 @@ from app.constants import *
 from app.routes.user import *
 
 
+# 내 채팅 목록
+@app.route('/chatting')
+def chatting():
+    me = mongo.db.users.find_one({'id': session['id']})
+    
+    rooms = list()
+
+    for my_room in me['rooms']:
+        my_rooms = mongo.db.rooms.find({'name': my_room['name']})
+        for room in my_rooms:
+            if room['group'] == False:
+                users = [me['nickname']]
+            else:
+                users = list()
+                for user in room['users']:
+                    if user['id'] != me['id']:
+                        users.append(user['nickname'])
+
+            last_message = max(room['messages'], key=lambda x: x['created_at'])
+
+            rooms.append({
+                'room_name': room['name'],
+                'users': users,
+                'last_message': last_message 
+            })
+    
+    print(rooms)
+
+    return render_template('chatting.html', me=me, rooms=rooms)
+
+
 def make_date():
     week = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
     now = datetime.now()

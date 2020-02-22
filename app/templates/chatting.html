@@ -9,16 +9,43 @@
 {% endblock %}
 
 {% block body %}
-<div class="ui comments">
-    <h2 class="ui header" style="margin-left: 14px;">채팅</h2>
-    <div class="comment">
-        <a class="avatar">
-            <img class="ui circular image" src="/static/images/default.png">
-        </a>
-        <div class="content">
-            <a class="author">Matt</a>
+<div class="ui comments" style="min-height: 630px;
+max-height: 100px !important;
+padding: 0px;
+overflow-y: scroll;">
+    <h2 class="ui header" style="margin-top: 14px;">채팅</h2>
+    <div class="ui section divider" style="margin-top: 0px; margin-bottom: 14px;"></div>
+    {% for room in rooms %}
+        <div class="comment" id="{{ room['room_name'] }}" style="-ms-user-select: none; 
+        -moz-user-select: -moz-none; 
+        -webkit-user-select: none; 
+        -khtml-user-select: none; 
+        user-select:none;">
+            <a class="avatar" style="margin-left: 0px !important;">
+                <img class="ui circular image" src="/static/images/default.png">
+            </a>
+            <div class="content" style="padding-bottom: 16px;">
+                <a class="author" href="/chat/room/{{room['room_name']}}">
+                    {% for user in room['users'] %}
+                        {% if user == me['nickname'] %}
+                        <i class="smile outline icon"></i>
+                        {% endif %}
+                        {{ user }}
+                    {% endfor %}
+                </a>
+                <div class="metadata">
+                    <span class="date">{{ room['last_message']['created_at'] }}</span>
+                </div>
+                <div class="text">
+                    {{ room['last_message']['content'] }}
+                </div>
+            </div>
         </div>
-    </div>
-    
+        <div class="ui section divider" style="margin-top: 0px; margin-bottom: 14px;"></div>
+    {% endfor %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='script/chat.js') }}"></script>
 {% endblock %}

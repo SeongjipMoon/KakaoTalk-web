@@ -28,13 +28,6 @@ def make_message_form(friend, message, web_url, mobile_web_url):
         return data
 
     return message_form
-    
-
-@app.route('/chatting')
-def chatting():
-    me = mongo.db.users.find_one({"id": session['id']})
-    
-    return render_template('chatting.html', me=me)
 
 
 @app.route('/send/me')
