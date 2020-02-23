@@ -2,7 +2,17 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>카톡 웹 - {{ room_name }}</title>
+        <title>카톡 웹 - 
+            {% if room['group'] == False %}
+                {{ me['nickname'] }}
+            {% else %}
+                {% for user in room['users'] %}
+                    {% if user['id'] != me['id'] %}
+                        {{ user['nickname'] }} 
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta property="og:site_name" content="야매 카카오톡 웹">
@@ -79,7 +89,16 @@
                 <table>
                     <thead>
                         <th><textarea class="input" id="text"></textarea></th>
-                        <th><button id="submit" class="ui submit button">전송</button></th>
+                        <th>
+                            <button id="submit" class="ui submit button">전송</button>
+                            <div>
+                                <input type="file" name="" id="">
+                                <i class="upload icon"></i>
+                            </div>
+                            <form action="/upload/create" method="post" enctype="multipart/form-data" class="ui small basic icon buttons">
+                                <button type="file" class="ui button"><i class="upload icon"></i></button>
+                            </form>
+                        </th>
                     </thead>
                 </table>
             </div>
