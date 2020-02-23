@@ -42,18 +42,17 @@ def text(message):
         msg = message['msg']
         if msg != '\n' and msg != '':
             nickName = session['nickname']
-            room = message['room']
+            room_name = message['room']
             msg = msg.replace('\n', '')
             
-            print(room + ', ' + nickName + ', ' + msg)
+            print(room_name + ', ' + nickName + ', ' + msg)
             emit('message', {
                 'name': nickName, 
                 'msg': msg,
                 'profile_image': session['profile_image']
-                }, room=room)
+                }, room=room_name)
 
-            name = room.replace('http://katalk.junghub.kr/chat/room/', '')
-            room = mongo.db.rooms.find_one({'name': name})
+            room = mongo.db.rooms.find_one({'name': room_name})
 
             users = list()
 
@@ -66,7 +65,7 @@ def text(message):
 
             data = {
                 'content': msg,
-                'room_name': room['name'],
+                'room_name': room_name,
                 'sender': {
                     'id': session['id'], 
                     'nickname': session['nickname']
@@ -83,6 +82,6 @@ def text(message):
             )
             
             if room['group'] == False:
-                send_me(msg)
+                send_me(msg, room_name)
             else:
-                send_friend(room['users'], msg)
+                send_friend(room['users'], msg, room_name)
