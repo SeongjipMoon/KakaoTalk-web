@@ -52,14 +52,14 @@
                         {% for message in room['messages'] %}
                             
                             
-                            {% if message['sender']['nickname'] != me['nickname'] %}
+                            {% if message['senders']['nickname'] != me['nickname'] %}
                             <div class="comment">
                                 <a class="avatar">
                                     <img class="ui circular image" src="../../static/images/default.png">
                                 </a>
                                 <div class="content">
                                     <div>
-                                        <a class="author">{{ message['sender']['nickname'] }}</a>
+                                        <a class="author">{{ message['senders']['nickname'] }}</a>
                                         <div class="metadata" style="margin-right: 10px;">
                                             <span class="date">18:18</span>
                                         </div>
@@ -91,10 +91,6 @@
                         <th><textarea class="input" id="text"></textarea></th>
                         <th>
                             <button id="submit" class="ui submit button">전송</button>
-                            <div>
-                                <input type="file" name="" id="">
-                                <i class="upload icon"></i>
-                            </div>
                             <form action="/upload/create" method="post" enctype="multipart/form-data" class="ui small basic icon buttons">
                                 <button type="file" class="ui button"><i class="upload icon"></i></button>
                             </form>

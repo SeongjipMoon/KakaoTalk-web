@@ -120,6 +120,9 @@ def unlink():
     response = requests.post(UNLINK_URL, headers=headers)
 
     mongo.db.users.remove({'id': session['id']})
+    mongo.db.rooms.remove({'users.id': session['id']})
+    mongo.db.messages.remove({'senders.id': session['id']})
+    mongo.db.messages.remove({'receviers.id': session['id']})
     print(session['nickname'] + ' 회원탈퇴')
     session.clear()
 

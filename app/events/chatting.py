@@ -66,7 +66,7 @@ def text(message):
             data = {
                 'content': msg,
                 'room_name': room_name,
-                'sender': {
+                'senders': {
                     'id': session['id'], 
                     'nickname': session['nickname']
                 },
