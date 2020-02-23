@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, abort
+from flask import render_template, url_for, redirect, abort, flash
 from datetime import datetime
 
 from app import app, mongo
@@ -58,6 +58,7 @@ def chat(friend_id):
 
     # 존재하는 user인가 확인
     if not user2:
+        flash('상대방이 DB에 존재하지 않음')
         print('상대방이 DB에 존재하지 않음')
         return redirect('/')
 
