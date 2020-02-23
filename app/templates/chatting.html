@@ -33,12 +33,14 @@ overflow-y: scroll;">
                         {{ user }}
                     {% endfor %}
                 </a>
+                {% if room['last_message'] %}
                 <div class="metadata">
                     <span class="date">{{ room['last_message']['created_at'] }}</span>
                 </div>
                 <div class="text">
                     {{ room['last_message']['content'] }}
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="ui section divider" style="margin-top: 0px; margin-bottom: 14px;"></div>

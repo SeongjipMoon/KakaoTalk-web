@@ -16,7 +16,10 @@ def chatting():
 
     for my_room in me['rooms']:
         my_rooms = mongo.db.rooms.find({'name': my_room['name']})
+
         for room in my_rooms:
+            last_message = None
+            
             if room['group'] == False:
                 users = [me['nickname']]
             else:
@@ -25,15 +28,14 @@ def chatting():
                     if user['id'] != me['id']:
                         users.append(user['nickname'])
 
-            last_message = max(room['messages'], key=lambda x: x['created_at'])
+            if 'messages' in room:
+                last_message = max(room['messages'], key=lambda x: x['created_at'])
 
             rooms.append({
                 'room_name': room['name'],
                 'users': users,
                 'last_message': last_message 
             })
-    
-    print(rooms)
 
     return render_template('chatting.html', me=me, rooms=rooms)
 
@@ -84,7 +86,7 @@ def chat(friend_id):
             )
     # 다른 사람하고 채팅
     else:
-        ############### 한번에 찾는거 필요함       
+        ############### 한번에 찾는거 필요함##############     
         room1 = mongo.db.rooms.find_one({
             'group': True,
             'users': [
@@ -100,6 +102,7 @@ def chat(friend_id):
                 {'id': user1['id'], 'nickname': user1['nickname']}
             ]
         })
+        ##############################################  
 
         # 상대방과 과거 채팅 유무 
         if not room1 and not room2:
