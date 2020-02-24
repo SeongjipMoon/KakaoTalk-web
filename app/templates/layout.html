@@ -28,14 +28,25 @@
                         <tbody>
                             <!-- 왼쪽 선택 바 -->
                             <td class="bar">
-                                <div class="ui header link" id="icon_div">
-                                    <i class="user icon" menu=""></i>
+                                <div class="ui compact menu">
+                                    <a href="/" class="item" id="item">
+                                        <i class="user icon"></i>
+                                    </a>
                                 </div>
-                                <div class="ui header link" id="icon_div">
-                                    <i class="comment icon" menu="chatting"></i>
+
+                                <div class="ui compact menu">
+                                    <a href="/chatting" class="item" id="item">
+                                        <i class="comment icon"></i>
+                                        {% if no_read %}
+                                        <div class="floating ui red label">{{ no_read }}</div>
+                                        {% endif %}
+                                    </a>
                                 </div>
-                                <div class="ui header link" id="icon_div">
-                                    <i class="ellipsis horizontal icon" menu="setting"></i>
+
+                                <div class="ui compact menu">
+                                    <a href="/setting" class="item" id="item">
+                                        <i class="ellipsis horizontal icon"></i>
+                                    </a>
                                 </div>
                             </td>
                             <!-- 메인 -->

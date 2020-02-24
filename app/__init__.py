@@ -21,6 +21,7 @@ def index():
     me = None
     friends_cnt = 0
     friends = list()
+    no_read = list()
 
     # session이 있나 없나
     if 'access_token' in session:

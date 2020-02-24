@@ -48,6 +48,14 @@ def chatting():
                 'no_read_cnt': no_read
             })
 
+        can = True
+        for room in rooms:
+            if room['last_message'] == None:
+                can = False
+
+        if can is True:
+            rooms = sorted(rooms, key=lambda x:x['last_message']['created_at'], reverse=True)
+
     return render_template('chatting.html', me=me, rooms=rooms)
 
 
