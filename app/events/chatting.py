@@ -16,14 +16,22 @@ def get_room_name(data):
 
 @socketio.on('joined', namespace='/chat')
 def joined(data):
-    room = get_room_name(data)
+    room_name = get_room_name(data)
     
-    join_room(room)
+    join_room(room_name)
 
     nickName = session['nickname']
-    print(room + ', ' + nickName + ',+ 입장했습니다.')
-    emit('status', {'room': room, 'msg': str(nickName) + '님이 입장했습니다.'}, room=room)
-    # db에 이름, 시간 저장
+    print(room_name + ', ' + nickName + ',+ 입장했습니다.')
+    emit('status', {'room': room_name, 'msg': nickName + '님이 입장했습니다.'}, room=room_name)
+
+    mongo.db.messages.update_many(
+        {'room_name': room_name,'receivers.id': session['id']},
+        {'$set': {'receivers.$.view': True}}
+    )
+    mongo.db.rooms.update_many(
+        {'name': room_name, 'messages.receivers.id': session['id']},
+        {'$set': {'messages.$[].receivers.$.view': True}}        
+    )
 
 
 @socketio.on('left', namespace='/chat')
@@ -60,7 +68,8 @@ def text(message):
                 if user['id'] != session['id']:
                     users.append({
                         'id': user['id'], 
-                        'nickname': user['nickname']
+                        'nickname': user['nickname'],
+                        'view': False
                     })
 
             data = {
@@ -70,7 +79,7 @@ def text(message):
                     'id': session['id'], 
                     'nickname': session['nickname']
                 },
-                'receviers': users,
+                'receivers': users,
                 'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
 

@@ -34,12 +34,17 @@ overflow-y: scroll;">
                     {% endfor %}
                 </a>
                 {% if room['last_message'] %}
-                <div class="metadata">
+                <div class="metadata" style="float: right; margin-right: 10px;">
                     <span class="date">{{ room['last_message']['created_at'] }}</span>
                 </div>
-                <div class="text">
+                <div class="text" style="width: 170px; float: left;">
                     {{ room['last_message']['content'] }}
                 </div>
+                {% endif %}
+                {% if room['no_read_cnt'] %}
+                <a class="ui red circular label" style="float: right; margin-right: 12px;">
+                    {{ room['no_read_cnt'] }}
+                </a>
                 {% endif %}
             </div>
         </div>

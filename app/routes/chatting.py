@@ -19,7 +19,8 @@ def chatting():
 
         for room in my_rooms:
             last_message = None
-            
+            no_read = 0
+
             if room['group'] == False:
                 users = [me['nickname']]
             else:
@@ -31,10 +32,20 @@ def chatting():
             if 'messages' in room:
                 last_message = max(room['messages'], key=lambda x: x['created_at'])
 
+            # 메세지 읽음 안읽음
+            receive_messages = mongo.db.messages.find({'receivers.id': session['id']})
+            
+            for message in receive_messages:
+                for receiver in message['receivers']:
+                    if receiver['id'] == session['id'] and receiver['view'] == False:
+                        if room['name'] == message['room_name']:
+                            no_read += 1
+
             rooms.append({
                 'room_name': room['name'],
                 'users': users,
-                'last_message': last_message 
+                'last_message': last_message,
+                'no_read_cnt': no_read
             })
 
     return render_template('chatting.html', me=me, rooms=rooms)

@@ -16,36 +16,6 @@ from app.routes.profile import friend
 from app.tools import load_star, naming_room
 
 
-@app.route('/check/<data>')
-def check(data):
-    if data == 'users':
-        aa = mongo.db.users.find({})
-    elif data == 'rooms':
-        aa = mongo.db.rooms.find({})
-    elif data == 'messages':
-        aa = mongo.db.messages.find({})
-    
-    print('------------------------------')
-    for a in aa:
-        print(a, '\n')
-    print('------------------------------')
-
-    return redirect('/')
-
-
-@app.route('/reset/<data>')
-def reset(data):
-    if data == 'users':
-        mongo.db.users.remove()
-    elif data == 'rooms':
-        mongo.db.rooms.remove()
-    elif data == 'messages':
-        mongo.db.messages.remove()
-
-    check(data)
-    return redirect('/')
-
-
 @app.route('/')
 def index():
     me = None
@@ -71,7 +41,17 @@ def index():
                 CLIENT_ID=CLIENT_ID, \
                 REDIRECT_URL=REDIRECT_URL)
 
+        # 메세지 읽음 안읽음
+        receive_messages = mongo.db.messages.find({'receivers.id': session['id']})
+        
+        no_read = list()
+
+        for message in receive_messages:
+            for receiver in message['receivers']:
+                if receiver['id'] == session['id'] and receiver['view'] == False:
+                    no_read.append(message['room_name'])
+
     return render_template('index.html', \
         CLIENT_ID=CLIENT_ID, REDIRECT_URL=REDIRECT_URL, \
         friends=friends, friends_cnt=friends_cnt, \
-        star='1.4k', me=me)
+        star='1.4k', me=me, no_read=len(no_read))
