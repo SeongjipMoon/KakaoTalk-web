@@ -44,6 +44,7 @@ overflow-y: scroll;">
 
     {% for friend in friends %}
         {{ profile(friend) }}
+        {{ profile_modals(friend) }}
     {% endfor %}
 </div>
 {% endblock %}

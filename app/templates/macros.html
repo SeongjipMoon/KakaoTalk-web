@@ -3,9 +3,9 @@
     <tbody>
         <td class="image">
             {% if me.thumbnail_image %}
-            <img class="ui circular image call-modal" modal-id="1" src="{{ me.thumbnail_image }}">
+            <img class="ui circular image call-modal" modal-id="{{ me.id }}" src="{{ me.thumbnail_image }}">
             {% else %}
-            <img class="ui circular image call-modal" modal-id="1" src="{{ url_for('static', filename='images/default.png') }}">
+            <img class="ui circular image call-modal" modal-id="{{ me.id }}" src="{{ url_for('static', filename='images/default.png') }}">
             {% endif %}
         </td>
         <td id="{{ me.id }}" class="name">
@@ -16,35 +16,27 @@
 {% endmacro %}
 
 
-{% macro profile_modals(me) %}
-<div class="ui modal" id="modal-1">
+{% macro profile_modals(user) %}
+<div class="ui modal" id="modal-{{user.id}}">
     <div class="contents">
         <i class="close icon"></i>
         <div class="image">
-            {% if me.profile_thumbnail_image %}
-            <img class="ui circular image call-modal" modal-id="1-1" src="{{ me.profile_thumbnail_image }}">
+            {% if user.thumbnail_image %}
+            <img class="ui circular image call-modal" modal-id="1-1" src="{{ user.thumbnail_image }}">
             {% else %}
-            <img class="ui circular image" src="{{ url_for('static', filename='images/default.png') }}">
+            <img class="ui circular image" style="width: 110px;" src="{{ url_for('static', filename='images/default.png') }}">
             {% endif %}
         </div>
         <div class="name">
-            <a>{{ me.profile_nickname }}</a>
+            <a>{{ user.nickname }}</a>
         </div>
     </div>
     <div class="ui fitted divider"></div>
     <div class="buttons">
         <h5 class="ui icon header">
-            <i class="comment icon"></i>
-            나와의 채팅
+            <i class="comment icon" id="{{ user.id }}"></i>
+            1:1 채팅
         </h5>
     </div>
-</div>
-{% endmacro %}
-
-
-{% macro profile_image_modal(me) %}
-<div class="ui modal image" id="modal-1-1">
-    <i class="close icon"></i>
-    <img class="ui centered big image" src="{{ me.profileImageURL }}">
 </div>
 {% endmacro %}
