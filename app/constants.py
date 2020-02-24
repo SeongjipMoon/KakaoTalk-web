@@ -15,3 +15,5 @@ LOGOUT_URL = 'https://kapi.kakao.com/v1/user/logout'
 UNLINK_URL = 'https://kapi.kakao.com/v1/user/unlink'
 USER_ME_URL = 'https://kapi.kakao.com/v2/user/me'
 USER_LIST_URL = 'https://kapi.kakao.com/v1/user/ids'
+
+FRIENDS_URL = 'https://kapi.kakao.com/v1/api/talk/friends'

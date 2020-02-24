@@ -10,9 +10,8 @@ from app.constants import *
 
 def friend(access_token):
     headers = make_auth_headers(access_token)
-    url = 'https://kapi.kakao.com/v1/api/talk/friends'
     
-    response = requests.get(url, headers=headers)
+    response = requests.get(FRIENDS_URL + '?limit=100', headers=headers)
     
     if response.status_code == 200 or response.status_code == 302:
         ddict = json.loads(response.text)
